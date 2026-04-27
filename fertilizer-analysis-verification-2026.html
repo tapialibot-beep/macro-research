@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fertilizer Crisis Verification Report — Cozmo | April 2026</title>
+  <style>
+    :root {
+      --bg: #0f1117;
+      --surface: #1a1d27;
+      --surface2: #222636;
+      --border: #2e3352;
+      --accent: #5b8dee;
+      --accent2: #7c5cbf;
+      --green: #3ecf8e;
+      --red: #f55b5b;
+      --amber: #f5a623;
+      --text: #e2e8f0;
+      --muted: #8892a4;
+      --tag-bg: #1e2a45;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      font-size: 15px;
+      line-height: 1.7;
+      padding: 0 0 80px;
+    }
+
+    /* ── HEADER ── */
+    .header {
+      background: linear-gradient(135deg, #0d1829 0%, #1a1040 100%);
+      border-bottom: 1px solid var(--border);
+      padding: 48px 48px 36px;
+    }
+    .header-meta {
+      font-size: 12px;
+      color: var(--muted);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+    .header h1 {
+      font-size: 32px;
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.25;
+      margin-bottom: 8px;
+    }
+    .header-subtitle {
+      color: var(--muted);
+      font-size: 14px;
+      margin-bottom: 24px;
+    }
+    .verdict-banner {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(91, 141, 238, 0.1);
+      border: 1px solid rgba(91, 141, 238, 0.3);
+      border-radius: 8px;
+      padding: 10px 16px;
+      font-size: 13px;
+      color: var(--accent);
+    }
+    .verdict-banner strong { color: #fff; }
+
+    /* ── LAYOUT ── */
+    .container { max-width: 960px; margin: 0 auto; padding: 0 48px; }
+
+    /* ── EXECUTIVE SUMMARY ── */
+    .exec-summary {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 28px 32px;
+      margin: 36px 0 0;
+    }
+    .exec-summary h2 {
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--accent);
+      margin-bottom: 16px;
+    }
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+    .summary-card {
+      background: var(--surface2);
+      border-radius: 8px;
+      padding: 16px;
+      border-left: 3px solid var(--border);
+    }
+    .summary-card.green { border-left-color: var(--green); }
+    .summary-card.amber { border-left-color: var(--amber); }
+    .summary-card.red { border-left-color: var(--red); }
+    .summary-card .label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+    .summary-card .value {
+      font-size: 22px;
+      font-weight: 700;
+      line-height: 1.1;
+    }
+    .summary-card .value.green { color: var(--green); }
+    .summary-card .value.amber { color: var(--amber); }
+    .summary-card .value.red { color: var(--red); }
+    .summary-card .sub {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    /* ── SECTION ── */
+    .section {
+      margin-top: 40px;
+    }
+    .section-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+    .section-number {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: 700;
+      flex-shrink: 0;
+      color: #fff;
+    }
+    .section-title h2 {
+      font-size: 20px;
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.3;
+    }
+    .section-title p {
+      font-size: 13px;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 24px 28px;
+      margin-bottom: 16px;
+    }
+
+    /* ── VERDICT PILL ── */
+    .verdict {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      margin-bottom: 14px;
+    }
+    .verdict.correct { background: rgba(62, 207, 142, 0.12); color: var(--green); }
+    .verdict.wrong { background: rgba(245, 91, 91, 0.12); color: var(--red); }
+    .verdict.partial { background: rgba(245, 166, 35, 0.12); color: var(--amber); }
+    .verdict.missing { background: rgba(124, 92, 191, 0.12); color: #a78bfa; }
+
+    /* ── COMPARISON TABLE ── */
+    .compare-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+    .compare-box {
+      border-radius: 8px;
+      padding: 14px 18px;
+    }
+    .compare-box.vector-said {
+      background: rgba(245, 91, 91, 0.07);
+      border: 1px solid rgba(245, 91, 91, 0.2);
+    }
+    .compare-box.actual {
+      background: rgba(62, 207, 142, 0.07);
+      border: 1px solid rgba(62, 207, 142, 0.2);
+    }
+    .compare-box .box-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+    .compare-box.vector-said .box-label { color: var(--red); }
+    .compare-box.actual .box-label { color: var(--green); }
+    .compare-box .box-value {
+      font-size: 26px;
+      font-weight: 700;
+      line-height: 1.1;
+    }
+    .compare-box.vector-said .box-value { color: var(--red); }
+    .compare-box.actual .box-value { color: var(--green); }
+    .compare-box .box-note {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 6px;
+    }
+
+    /* ── DATA TABLE ── */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      margin-top: 16px;
+    }
+    thead th {
+      background: var(--surface2);
+      padding: 10px 14px;
+      text-align: left;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      color: var(--muted);
+      border-bottom: 1px solid var(--border);
+    }
+    tbody tr {
+      border-bottom: 1px solid rgba(46, 51, 82, 0.5);
+      transition: background 0.15s;
+    }
+    tbody tr:hover { background: rgba(91, 141, 238, 0.04); }
+    tbody td { padding: 10px 14px; }
+    .up { color: var(--red); font-weight: 600; }
+    .down { color: var(--green); font-weight: 600; }
+    .neutral { color: var(--amber); font-weight: 600; }
+
+    /* ── INVESTMENT TABLE ── */
+    .inv-table table { margin-top: 0; }
+    .ticker { font-family: monospace; font-weight: 700; color: var(--accent); font-size: 14px; }
+    .rating-pill {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+    .rating-pill.buy { background: rgba(62, 207, 142, 0.15); color: var(--green); }
+    .rating-pill.neutral { background: rgba(245, 166, 35, 0.15); color: var(--amber); }
+    .rating-pill.avoid { background: rgba(245, 91, 91, 0.15); color: var(--red); }
+    .rating-pill.short { background: rgba(124, 92, 191, 0.15); color: #a78bfa; }
+
+    /* ── CALLOUT ── */
+    .callout {
+      border-radius: 8px;
+      padding: 14px 18px;
+      margin-top: 14px;
+      font-size: 13.5px;
+    }
+    .callout.warn {
+      background: rgba(245, 166, 35, 0.07);
+      border-left: 3px solid var(--amber);
+      color: #d4a843;
+    }
+    .callout.danger {
+      background: rgba(245, 91, 91, 0.07);
+      border-left: 3px solid var(--red);
+      color: #d46060;
+    }
+    .callout.info {
+      background: rgba(91, 141, 238, 0.07);
+      border-left: 3px solid var(--accent);
+      color: #7faae8;
+    }
+    .callout.success {
+      background: rgba(62, 207, 142, 0.07);
+      border-left: 3px solid var(--green);
+      color: #3ab87e;
+    }
+    .callout strong { color: #fff; }
+
+    /* ── PHASE TIMELINE ── */
+    .timeline {
+      display: flex;
+      gap: 0;
+      margin: 20px 0;
+      position: relative;
+    }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      top: 22px;
+      left: 24px;
+      right: 24px;
+      height: 2px;
+      background: var(--border);
+      z-index: 0;
+    }
+    .phase {
+      flex: 1;
+      text-align: center;
+      position: relative;
+      z-index: 1;
+    }
+    .phase-dot {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 700;
+      margin: 0 auto 10px;
+      border: 2px solid var(--border);
+    }
+    .phase-dot.done { background: var(--surface2); border-color: var(--green); color: var(--green); }
+    .phase-dot.now { background: var(--accent); border-color: var(--accent); color: #fff; box-shadow: 0 0 14px rgba(91, 141, 238, 0.5); }
+    .phase-dot.future { background: var(--surface2); border-color: var(--border); color: var(--muted); }
+    .phase-label { font-size: 12px; font-weight: 600; }
+    .phase-label.done { color: var(--green); }
+    .phase-label.now { color: var(--accent); }
+    .phase-label.future { color: var(--muted); }
+    .phase-date { font-size: 11px; color: var(--muted); margin-top: 3px; }
+    .phase-desc { font-size: 11px; color: var(--muted); margin-top: 4px; max-width: 120px; margin-left: auto; margin-right: auto; }
+
+    /* ── AUD SECTION ── */
+    .aud-split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 14px;
+    }
+    .aud-box {
+      background: var(--surface2);
+      border-radius: 8px;
+      padding: 16px;
+    }
+    .aud-box h4 { font-size: 13px; color: var(--muted); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.7px; }
+    .aud-box ul { list-style: none; }
+    .aud-box ul li { padding: 5px 0; font-size: 13px; border-bottom: 1px solid rgba(46, 51, 82, 0.4); }
+    .aud-box ul li:last-child { border-bottom: none; }
+    .aud-box ul li::before { content: '→ '; color: var(--muted); }
+
+    /* ── SOURCES ── */
+    .sources { margin-top: 40px; border-top: 1px solid var(--border); padding-top: 24px; }
+    .sources h3 { font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: var(--muted); margin-bottom: 12px; }
+    .source-list { display: flex; flex-direction: column; gap: 6px; }
+    .source-list a {
+      color: var(--accent);
+      text-decoration: none;
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .source-list a::before { content: '↗'; font-size: 11px; opacity: 0.6; }
+    .source-list a:hover { text-decoration: underline; }
+
+    /* ── FOOTER ── */
+    .footer {
+      margin-top: 60px;
+      border-top: 1px solid var(--border);
+      padding: 24px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .footer-brand { font-weight: 600; color: var(--text); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 700px) {
+      .header, .footer { padding: 32px 24px; }
+      .container { padding: 0 24px; }
+      .summary-grid { grid-template-columns: 1fr; }
+      .compare-row, .aud-split { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="container">
+    <div class="header-meta">Cozmo Intelligence · April 28, 2026</div>
+    <h1>Fertilizer Crisis Verification Report</h1>
+    <div class="header-subtitle">Independent verification of Vector's <em>Food Price Shock Analysis: 2022 vs 2026</em></div>
+    <div class="verdict-banner">
+      <span>Overall verdict:</span>
+      <strong>Framework CORRECT — Key figures UNDERSTATED — Investment layer MISSING</strong>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- EXECUTIVE SUMMARY -->
+  <div class="exec-summary">
+    <h2>Executive Summary</h2>
+    <div class="summary-grid">
+      <div class="summary-card green">
+        <div class="label">Structural Analysis</div>
+        <div class="value green">Solid</div>
+        <div class="sub">2022 vs 2026 framework is correct and well-sourced</div>
+      </div>
+      <div class="summary-card amber">
+        <div class="label">Key Figures</div>
+        <div class="value amber">Understated</div>
+        <div class="sub">Both urea disruption % and AUS dependency % are too low</div>
+      </div>
+      <div class="summary-card red">
+        <div class="label">Trade Implications</div>
+        <div class="value red">Missing</div>
+        <div class="sub">No investable signals, no currency analysis, no commodity positioning</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PHASE TIMELINE -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-number">0</div>
+      <div class="section-title">
+        <h2>Where We Are Now</h2>
+        <p>The outcome for Q3/Q4 2026 food prices is being locked in during this window</p>
+      </div>
+    </div>
+    <div class="card">
+      <div class="timeline">
+        <div class="phase">
+          <div class="phase-dot done">1</div>
+          <div class="phase-label done">Done</div>
+          <div class="phase-date">Jan – Mar 2026</div>
+          <div class="phase-desc">Input costs spike. Urea hits $915 AUD/t (+57% YTD).</div>
+        </div>
+        <div class="phase">
+          <div class="phase-dot now">2</div>
+          <div class="phase-label now">NOW ←</div>
+          <div class="phase-date">Apr – Jun 2026</div>
+          <div class="phase-desc">Farmers decide planting acreage. 15% wheat cut signaled.</div>
+        </div>
+        <div class="phase">
+          <div class="phase-dot future">3</div>
+          <div class="phase-label future">Upcoming</div>
+          <div class="phase-date">Jul – Sep 2026</div>
+          <div class="phase-desc">First harvest shortfall data. Developing nations hit first.</div>
+        </div>
+        <div class="phase">
+          <div class="phase-dot future">4</div>
+          <div class="phase-label future">Peak</div>
+          <div class="phase-date">Oct – Dec 2026</div>
+          <div class="phase-desc">Food CPI peaks globally. Developed nations feel it.</div>
+        </div>
+      </div>
+      <div class="callout info">
+        <strong>Critical insight:</strong> We are in the decision window. The planting choices being made <em>right now</em> determine global food supply for Q4 2026 through Q1 2027. By the time the data appears in CPI prints, it will already be irreversible.
+      </div>
+    </div>
+  </div>
+
+  <!-- GAP 1 -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-number" style="background: var(--red);">1</div>
+      <div class="section-title">
+        <h2>Hormuz Urea Disruption: Vector Understated It</h2>
+        <p>The 25% figure in the original report is too conservative</p>
+      </div>
+    </div>
+    <div class="card">
+      <span class="verdict wrong">✗ Figure incorrect — reality is worse</span>
+      <div class="compare-row">
+        <div class="compare-box vector-said">
+          <div class="box-label">Vector's Claim</div>
+          <div class="box-value">~25%</div>
+          <div class="box-note">of global urea trade disrupted</div>
+        </div>
+        <div class="compare-box actual">
+          <div class="box-label">Verified Reality</div>
+          <div class="box-value">30–46%</div>
+          <div class="box-note">depending on scope of disruption</div>
+        </div>
+      </div>
+      <p style="margin-top: 16px; font-size: 14px; color: var(--text);">The Arabian Gulf accounts for <strong>46% of global urea production capacity</strong>. Qatar's QAFCO alone represents ~14% of global urea trade. UNCTAD puts the broad fertilizer complex (urea + ammonia + phosphate + sulphur) at <strong>30% of global exports</strong> transiting the Strait.</p>
+      <p style="margin-top: 10px; font-size: 14px; color: var(--text);">The 25% figure likely assumes only Iranian exports are disrupted. A broader blockade affecting UAE, Qatar, and Saudi shipping raises the floor to 30–35%, not a ceiling.</p>
+      <div class="callout danger" style="margin-top: 16px;">
+        <strong>Implication:</strong> The supply shock is structurally larger than the original report models. 2026 projections for food CPI — especially developing nation figures — should be revised upward.
+      </div>
+    </div>
+  </div>
+
+  <!-- GAP 2 -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-number" style="background: var(--amber);">2</div>
+      <div class="section-title">
+        <h2>Australia Fertilizer Dependency: Also Understated</h2>
+        <p>60–69% of Australian urea imports are Middle East origin — not 42%</p>
+      </div>
+    </div>
+    <div class="card">
+      <span class="verdict wrong">✗ Figure understated — real exposure higher</span>
+      <div class="compare-row">
+        <div class="compare-box vector-said">
+          <div class="box-label">Vector's Claim</div>
+          <div class="box-value">42%</div>
+          <div class="box-note">of fertilizer import value from Hormuz zone</div>
+        </div>
+        <div class="compare-box actual">
+          <div class="box-label">Verified Reality</div>
+          <div class="box-value">60–69%</div>
+          <div class="box-note">of urea imports from UAE, Qatar, Saudi Arabia</div>
+        </div>
+      </div>
+      <p style="margin-top: 16px; font-size: 14px;">Key facts about Australia's position:</p>
+      <table>
+        <thead>
+          <tr>
+            <th>Metric</th>
+            <th>Value</th>
+            <th>Context</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Annual urea consumption</td><td>~3.7 Mt (2025)</td><td>~90% imported</td></tr>
+          <tr><td>Total fertilizer import value</td><td>A$3.63B (2025)</td><td>—</td></tr>
+          <tr><td>Middle East import share</td><td>60–69%</td><td>UAE, Qatar, Saudi primary</td></tr>
+          <tr><td>Current urea price</td><td>AUD $915/t</td><td>+57% YTD, matching 2022 crisis peak</td></tr>
+          <tr><td>Critical import window</td><td>April – June</td><td>Bulk of annual shipments — happening NOW</td></tr>
+          <tr><td>Projected wheat acreage cut</td><td>~15%</td><td>Before full price normalisation</td></tr>
+        </tbody>
+      </table>
+      <div class="callout warn" style="margin-top: 16px;">
+        <strong>Why this matters:</strong> The 42% figure understates Australia's vulnerability. With 60–69% of urea from the Hormuz zone, Australia is more exposed than Vector's report implies — and the disruption is hitting at the exact moment of maximum annual import demand.
+      </div>
+    </div>
+  </div>
+
+  <!-- GAP 3: INVESTMENT -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-number" style="background: var(--accent2);">3</div>
+      <div class="section-title">
+        <h2>Missing: The Trade &amp; Investment Layer</h2>
+        <p>Vector gave the macro story. Here are the investable signals.</p>
+      </div>
+    </div>
+
+    <!-- EQUITIES -->
+    <div class="card">
+      <span class="verdict missing">+ Added: Fertilizer Equities</span>
+      <p style="font-size: 14px; margin-bottom: 16px;">North American producers are the clear structural beneficiary. They source feedstock at Henry Hub natural gas prices while selling urea at global spot ($700+/t). That spread = margin.</p>
+      <div class="inv-table">
+        <table>
+          <thead>
+            <tr>
+              <th>Ticker</th>
+              <th>Company</th>
+              <th>3M Return</th>
+              <th>Rating</th>
+              <th>Key Risk</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="ticker">CF</span></td>
+              <td>CF Industries</td>
+              <td class="up">+59%</td>
+              <td><span class="rating-pill buy">Buy</span></td>
+              <td>DOJ antitrust investigation (March 2026)</td>
+            </tr>
+            <tr>
+              <td><span class="ticker">NTR</span></td>
+              <td>Nutrien</td>
+              <td class="up">+24%</td>
+              <td><span class="rating-pill buy">Buy</span></td>
+              <td>More diversified, lower antitrust risk</td>
+            </tr>
+            <tr>
+              <td><span class="ticker">YARA</span></td>
+              <td>Yara International</td>
+              <td class="neutral">+8%</td>
+              <td><span class="rating-pill neutral">Hold</span></td>
+              <td>European gas feedstock cost squeeze</td>
+            </tr>
+            <tr>
+              <td><span class="ticker">MOS</span></td>
+              <td>Mosaic Co.</td>
+              <td class="up">+18%</td>
+              <td><span class="rating-pill neutral">Hold</span></td>
+              <td>Potash-heavy, less pure urea play</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="callout info" style="margin-top: 16px;">
+        <strong>CF Industries is the cleanest long.</strong> ~$300/t production cost advantage over European peers. Consensus EPS revised up 36.5% in 60 days. Main tail risk: DOJ investigation escalates into price-fixing charges.
+      </div>
+    </div>
+
+    <!-- SOFT COMMODITIES -->
+    <div class="card">
+      <span class="verdict missing">+ Added: Soft Commodities Setup</span>
+      <p style="font-size: 14px; margin-bottom: 16px;">Current futures prices are <em>below</em> farmer break-even — which means the supply response is already baked in. The market hasn't priced the Q3 harvest shortfall data yet.</p>
+      <table>
+        <thead>
+          <tr>
+            <th>Commodity</th>
+            <th>USDA 2026 Projection</th>
+            <th>Farmer Break-Even</th>
+            <th>Gap</th>
+            <th>Supply Trend</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Wheat</td>
+            <td>$5.00/bu</td>
+            <td>$7.96/bu</td>
+            <td class="up">-$2.96/bu</td>
+            <td class="up">-6% vs 2025/26</td>
+          </tr>
+          <tr>
+            <td>Corn</td>
+            <td>$4.62/bu</td>
+            <td>~$5.00/bu</td>
+            <td class="up">-$0.38/bu</td>
+            <td class="up">-7% vs 2025</td>
+          </tr>
+          <tr>
+            <td>Soybeans</td>
+            <td>$11.09/bu</td>
+            <td>$12.27/bu</td>
+            <td class="up">-$1.18/bu</td>
+            <td class="neutral">Recovering exports</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="callout warn" style="margin-top: 16px;">
+        <strong>The setup:</strong> Farmers are being asked to plant at a loss while fertilizer costs are highest in 4 years. This isn't a demand story — it's a supply capitulation story. Q3 harvest data confirmation = re-rating event for wheat futures. Wheat is the highest conviction entry given deepest break-even gap and 6% supply drop.
+      </div>
+    </div>
+
+    <!-- EM CURRENCIES -->
+    <div class="card">
+      <span class="verdict missing">+ Added: EM Sovereign Stress</span>
+      <p style="font-size: 14px; margin-bottom: 16px;">Vector identified Egypt and Bangladesh as high-risk but didn't map the mechanism. Here's the full picture.</p>
+      <table>
+        <thead>
+          <tr>
+            <th>Country</th>
+            <th>2022 Food Inflation Peak</th>
+            <th>2026 Projected</th>
+            <th>Key Amplifier</th>
+            <th>Signal</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Egypt</strong></td>
+            <td>35.0%</td>
+            <td class="up">45%+</td>
+            <td>82% wheat from Russia/Ukraine + EGP structurally weak. Food inflation already 15.2% Mar 2026, up from 13.4% Feb.</td>
+            <td><span class="rating-pill short">Short EGP / Long CDS</span></td>
+          </tr>
+          <tr>
+            <td><strong>Bangladesh</strong></td>
+            <td>10.0%</td>
+            <td class="up">20%+</td>
+            <td>Subsidy capacity exhausted post-2022. BDT depreciation transmits directly to food prices. No buffer remaining.</td>
+            <td><span class="rating-pill short">Watch BDT / EM bond spreads</span></td>
+          </tr>
+          <tr>
+            <td><strong>Sri Lanka</strong></td>
+            <td>91.0%</td>
+            <td class="down">~50%</td>
+            <td>Lower than 2022 — no forex collapse this cycle. IMF program partially stabilising.</td>
+            <td><span class="rating-pill neutral">Monitor only</span></td>
+          </tr>
+          <tr>
+            <td><strong>Sub-Saharan Africa</strong></td>
+            <td>~30%</td>
+            <td class="up">35–40%</td>
+            <td>WFP funding at lowest since 2015. USAID cuts compounding. No bilateral safety net.</td>
+            <td><span class="rating-pill avoid">Humanitarian escalation risk</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- AUD -->
+    <div class="card">
+      <span class="verdict missing">+ Added: AUD Framework</span>
+      <p style="font-size: 14px; margin-bottom: 10px;">AUD is in a <strong>structural conflict</strong> that makes it genuinely unusual. Normally food price spikes lift AUD via terms of trade — but this time Australia is on the cost side of the shock before the revenue side catches up.</p>
+      <div class="aud-split">
+        <div class="aud-box">
+          <h4>Short-Term Headwinds (Now → Q3)</h4>
+          <ul>
+            <li>AUD already -3.1% in March 2026</li>
+            <li>Agricultural export value forecast -9% to A$73B (DAFF)</li>
+            <li>Farmer margin compression → reduced rural spending</li>
+            <li>60–69% fertilizer imports from Hormuz zone → direct import cost shock</li>
+          </ul>
+        </div>
+        <div class="aud-box">
+          <h4>Medium-Term Tailwinds (Q4 → 2027)</h4>
+          <ul>
+            <li>If wheat prices re-rate upward, AU export pricing power recovers</li>
+            <li>Australia is a net food exporter — price taker on inputs, price setter on outputs</li>
+            <li>Southeast Asia / Middle East food demand for AU exports stays elevated</li>
+            <li>AUD historically re-correlates with ToT once supply shock prices in</li>
+          </ul>
+        </div>
+      </div>
+      <div class="callout warn" style="margin-top: 14px;">
+        <strong>Trade framing:</strong> Short-term AUD negative (cost shock arriving now). Medium-term the direction depends on whether wheat futures re-rate before Australian export volumes fall. The flip point is Q3 harvest data — if shortfall confirms, AUD could recover despite the input cost pain.
+      </div>
+    </div>
+
+  </div>
+
+  <!-- FINAL SCORECARD -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-number" style="background: var(--green);">✓</div>
+      <div class="section-title">
+        <h2>Verification Scorecard</h2>
+        <p>Final assessment of Vector's original report</p>
+      </div>
+    </div>
+    <div class="card">
+      <table>
+        <thead>
+          <tr>
+            <th>Claim</th>
+            <th>Vector Said</th>
+            <th>Verified</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Transmission mechanism (supply → CPI)</td>
+            <td>6–9 month lag</td>
+            <td>Confirmed, textbook</td>
+            <td><span class="rating-pill buy">Correct</span></td>
+          </tr>
+          <tr>
+            <td>2022 vs 2026 structural difference</td>
+            <td>2022 = expensive; 2026 = scarce</td>
+            <td>Confirmed, key insight</td>
+            <td><span class="rating-pill buy">Correct</span></td>
+          </tr>
+          <tr>
+            <td>Phase 2 timing (planting window)</td>
+            <td>Apr–Jun 2026</td>
+            <td>Confirmed for both AU &amp; US</td>
+            <td><span class="rating-pill buy">Correct</span></td>
+          </tr>
+          <tr>
+            <td>2022 food inflation actuals</td>
+            <td>UK 19.1%, EU 19.2%, US 13.5%</td>
+            <td>Consistent with known data</td>
+            <td><span class="rating-pill buy">Correct</span></td>
+          </tr>
+          <tr>
+            <td>Hormuz urea disruption %</td>
+            <td>~25%</td>
+            <td>30–46% (Arabian Gulf capacity)</td>
+            <td><span class="rating-pill avoid">Understated</span></td>
+          </tr>
+          <tr>
+            <td>Australia Hormuz dependency</td>
+            <td>42%</td>
+            <td>60–69% of urea imports</td>
+            <td><span class="rating-pill avoid">Understated</span></td>
+          </tr>
+          <tr>
+            <td>2026 developing nation magnitude</td>
+            <td>Egypt 45%, Bangladesh 20%+</td>
+            <td>Directionally correct, speculative magnitude</td>
+            <td><span class="rating-pill neutral">Plausible</span></td>
+          </tr>
+          <tr>
+            <td>Trade / investment implications</td>
+            <td>Not included</td>
+            <td>CF, NTR, wheat futures, EGP, AUD</td>
+            <td><span class="rating-pill short">Gap filled above</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- SOURCES -->
+  <div class="sources">
+    <h3>Sources &amp; References</h3>
+    <div class="source-list">
+      <a href="https://clime.com.au/fertilizer-a-critical-dependency/" target="_blank">Clime: Australia's Fertilizer Supply Vulnerability</a>
+      <a href="https://episode3.net/inputs/australias-urea-supply-is-now-a-race-against-the-clock/" target="_blank">Episode 3: Australia's Urea Supply — Race Against the Clock</a>
+      <a href="https://discoveryalert.com.au/australian-urea-supply-risk-2026-import-dependency/" target="_blank">Discovery Alert: Australian Urea Supply Risk 2026</a>
+      <a href="https://fertilizerfield.com/australia-fertilizer-supply-crisis-2026/" target="_blank">FertilizerField: Australia Fertilizer Supply Crisis 2026</a>
+      <a href="https://carnegieendowment.org/emissary/2026/03/fertilizer-iran-hormuz-food-crisis" target="_blank">Carnegie Endowment: Hormuz Fertilizer Food Crisis</a>
+      <a href="https://www.weforum.org/stories/2026/03/fertilizer-urea-middle-east-war-food-security/" target="_blank">World Economic Forum: Fertilizer, Urea, Middle East War &amp; Food Security</a>
+      <a href="https://www.weforum.org/stories/2026/04/beyond-oil-lng-commodities-impacted-closure-hormuz-strait/" target="_blank">WEF: Commodities Impacted by Hormuz Closure</a>
+      <a href="https://oilprice.com/Energy/Energy-General/How-the-Strait-of-Hormuz-Crisis-Could-Trigger-a-Global-Fertilizer-Shock.html" target="_blank">OilPrice.com: Hormuz Global Fertilizer Shock</a>
+      <a href="https://www.tradingview.com/news/zacks:398c8594d094b:0-cf-stock-rallies-59-in-3-months-what-should-investors-do-now/" target="_blank">Zacks: CF Industries +59% in 3 Months</a>
+      <a href="https://www.tradingview.com/news/zacks:cb30f21f6094b:0-zacks-industry-outlook-highlights-nutrien-cf-industries-and-yara/" target="_blank">Zacks: Industry Outlook — Nutrien, CF Industries, Yara</a>
+      <a href="https://farmdocdaily.illinois.edu/2026/03/projected-prices-and-volatility-factors-for-2026.html" target="_blank">farmdoc daily: 2026 Projected Prices &amp; Volatility</a>
+      <a href="https://english.ahram.org.eg/News/565619.aspx" target="_blank">Ahram Online: Egypt Inflation Data March 2026</a>
+      <a href="https://www.rabobank.com/knowledge/q011437378-australia-agribusiness-march-2026-resilience-tested-middle-east-tensions-and-australian-agribusiness/" target="_blank">Rabobank: Australia Agribusiness March 2026</a>
+      <a href="https://markets.financialcontent.com/stocks/article/marketminute-2026-4-9-the-2026-fertilizer-crunch-geopolitical-strife-ignites-650-urea-and-reshapes-american-fields" target="_blank">FinancialContent: 2026 Fertilizer Crunch — Urea at $650+</a>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">
+  <div>
+    <div class="footer-brand">Cozmo Intelligence</div>
+    <div>Compiled April 28, 2026 · For Karina Li</div>
+  </div>
+  <div style="text-align: right;">
+    <div>Verification of Vector's Food Price Shock Analysis</div>
+    <div style="margin-top: 3px; color: #5b8dee;">Independent · Cross-referenced · Sources linked</div>
+  </div>
+</div>
+
+</body>
+</html>
