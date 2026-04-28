@@ -223,7 +223,7 @@
 <header>
   <h1>Is Demand Destruction Suppressing Oil Prices?</h1>
   <p class="subtitle">A data-driven test of the hypothesis — using credible, public sources</p>
-  <p class="date">Analysis by Vector — April 28, 2026 (rev. 2 — Cozmo corrections applied)</p>
+  <p class="date">Analysis by Vector — April 28, 2026 (rev. 3 — Cozmo corrections & product chain breakdown)</p>
 </header>
 
 <div class="container">
@@ -272,7 +272,8 @@
   <div class="section" id="gap">
     <div class="section-num">Evidence 1</div>
     <h2>The Price Gap: Where Prices *Should* Be vs. Where They Are</h2>
-    <p class="highlight">The IEA has called this "the largest supply disruption in the history of the global oil market" — removing ~20% of global supply. Even at peak ($144 on April 7), prices never reached the $150+ implied by historical elasticity. More tellingly, the market has since retreated to ~$105 (April 24) — a 27% crash in 17 days while the supply disruption remains live. The thesis rests on the current $105 level, not the peak: sustained suppression, not just a muted spike.</p>
+    <p class="highlight">The IEA has called this "the largest supply disruption in the history of the global oil market" — removing ~20% of global supply. Even at peak ($144 on April 7), prices never reached the $150+ implied by historical elasticity. The market has since retreated to ~$105 (April 24) — a 27% retreat in 17 days while the supply disruption remains live.</p>
+    <p style="margin-top: 8px; color: var(--muted); font-size: 0.9rem;"><strong style="color: var(--accent);">Elasticity note (Cozmo correction):</strong> The "3–5x below historical elasticity" framing is circular if most of the shortfall is classified as deferral. The correct test: does <em>total demand response</em> (destruction + deferral + substitution) sit within historical elasticity range? If yes, there is no anomaly to explain. If no, then excise cuts, reserve releases, and short-run price inelasticity must carry the explanatory weight. Current assessment: total response is at the low end of but within historical range — meaning demand destruction is real but not anomalously large.</p>
     <p style="margin-top: 8px; color: var(--muted); font-size: 0.9rem;"><strong style="color: var(--accent);">Caveat:</strong> The $144→$105 retreat was not driven by demand destruction alone. It also reflects risk premium compression as ceasefire negotiations advanced, strategic reserve releases (IEA/US SPR), and a partial normalisation of the physical-futures differential. These are distinct drivers — demand destruction is one contributor, not the full explanation for the price decline.</p>
 
     <div class="chart-container" id="chart-gap"></div>
@@ -309,12 +310,12 @@
 
     <p>This is the most direct evidence of demand destruction in the petrochemical chain. Naphtha prices are HIGH (supply shock), but the downstream demand for naphtha-derived products has collapsed because:</p>
     <table>
-      <tr><th>Plant / Company</th><th>Action</th><th>Reason</th></tr>
-      <tr><td class="val">LG Chem (South Korea)</td><td>Naphtha cracker shutdown</td><td>Can't secure feedstock</td></tr>
-      <tr><td class="val">Hanwha TotalEnergies</td><td>Force majeure declared</td><td>Naphtha supply disruption</td></tr>
-      <tr><td class="val">Lotte Chemical</td><td>Force majeure declared</td><td>Feedstock shortage</td></tr>
-      <tr><td class="val">Yeochun NCC</td><td>Force majeure declared</td><td>Operating at loss</td></tr>
-      <tr><td class="val">Japan & Korea crackers</td><td>Running at ~60% utilization</td><td>Negative margins</td></tr>
+      <tr><th>Plant / Company</th><th>Action</th><th>Reason</th><th>Classification</th></tr>
+      <tr><td class="val">LG Chem (South Korea)</td><td>Naphtha cracker shutdown</td><td>Can't secure feedstock</td><td style="color: var(--blue);">Supply Disruption</td></tr>
+      <tr><td class="val">Hanwha TotalEnergies</td><td>Force majeure declared</td><td>Naphtha supply disruption</td><td style="color: var(--blue);">Supply Disruption</td></tr>
+      <tr><td class="val">Lotte Chemical</td><td>Force majeure declared</td><td>Feedstock shortage</td><td style="color: var(--blue);">Supply Disruption</td></tr>
+      <tr><td class="val">Yeochun NCC</td><td>Force majeure declared</td><td>Operating at loss</td><td style="color: var(--red);">Demand Destruction</td></tr>
+      <tr><td class="val">Japan & Korea crackers</td><td>Running at ~60% utilization</td><td>Negative margins</td><td style="color: var(--red);">Demand Destruction</td></tr>
     </table>
     <p>The result: PE and PP packaging material prices are up 20–30%, with some auxiliary materials up 50% YoY. Naphtha shortage is rippling from clothing to PET bottles — a direct physical manifestation of demand destruction cascading through supply chains.</p>
     <p><span class="source">Sources: S&P Global Platts, Seoul Economic Daily, ICIS, Korea Herald, C&EN (ACS)</span></p>
@@ -365,6 +366,7 @@
     <span class="verdict mixed">Mixed — Supply Shock Exceeds Demand Destruction</span>
   </div>
 
+<!-- PRODUCT CHAIN BREAKDOWN -->  <div class="section" id="products">    <div class="section-num">Evidence 7 — Product Chain Analysis</div>    <h2>Demand Destruction by Petroleum Product Chain</h2>    <p class="highlight">Three-subagent synthesis with Cozmo corrections applied. The critical distinction: total demand loss vs. price-driven demand destruction vs. supply disruption.</p>    <table>      <tr><th>Product Chain</th><th>Destruction (kb/d)</th><th>Confidence</th><th>Primary Driver</th><th>Classification</th></tr>      <tr>        <td class="val">Gasoline</td>        <td class="val">-310 to -400</td>        <td><span style="color: var(--accent);">MED-HIGH</span></td>        <td>Price 70%, GDP 30%. AU EV surge (+95% y/y) = first structural permanent loss signal.</td>        <td style="color: var(--red);">Demand Destruction</td>      </tr>      <tr>        <td class="val">Diesel</td>        <td class="val">-360 to -450</td>        <td><span style="color: var(--accent);">MED-HIGH</span></td>        <td>Price 55%, GDP 45%. AU diesel peaked 295c/L. Mining, agriculture, freight all verified damaged.</td>        <td style="color: var(--red);">Demand Destruction</td>      </tr>      <tr>        <td class="val">Jet Fuel</td>        <td class="val">-200 to -350 (Q2)</td>        <td><span style="color: var(--accent);">MED</span></td>        <td>Price 80%. IEA +60 kb/d annual = Q1 artefact masking Q2 contraction (-3 to -5%).</td>        <td style="color: var(--red);">Demand Destruction</td>      </tr>      <tr>        <td class="val">LPG</td>        <td class="val">-370 to -450</td>        <td><span style="color: var(--green);">HIGH</span></td>        <td>India residential crisis (-205 kb/d cooking gas). Hormuz blocks 30% seaborne LPG.</td>        <td style="color: var(--purple);">Mixed (Supply + Demand)</td>      </tr>      <tr>        <td class="val">Naphtha / Feedstocks</td>        <td class="val">-600 to -900 (corrected)</td>        <td><span style="color: var(--accent);">MED-HIGH</span></td>        <td>IEA headline was -1.5 mb/d — ~half is supply disruption, not demand destruction. Corrected per Cozmo.</td>        <td style="color: var(--purple);">Reclassified</td>      </tr>      <tr>        <td class="val">HFO / Power</td>        <td class="val">-200 to -400</td>        <td><span style="color: var(--accent);">MED</span></td>        <td>Kuwait power plants physically struck.</td>        <td style="color: var(--blue);">Mostly Supply Disruption</td>      </tr>      <tr>        <td class="val">Marine Bunkers</td>        <td class="val">-200 to -400</td>        <td><span style="color: var(--accent);">MED</span></td>        <td>Cape +30% fuel cost vs BIMCO -16% cargo collapse.</td>        <td style="color: var(--red);">Demand Destruction</td>      </tr>    </table>    <div class="callout" style="margin-top: 24px;">      <div class="callout-item red">        <div class="number">~1.5-2.5 mb/d</div>        <div class="label">Total Demand Loss (all categories)</div>      </div>      <div class="callout-item amber">        <div class="number">~0.5-1.0 mb/d</div>        <div class="label">Ex-Feedstocks (refined products only)</div>      </div>      <div class="callout-item green">        <div class="number">~600-900 kb/d</div>        <div class="label">True Naphtha Demand Destruction (corrected)</div>      </div>    </div>    <p style="margin-top: 16px;"><span class="source">Sources: IEA April 2026 OMR, EIA, S&amp;P Global Platts, BIMCO, Kpler, ICIS, India Ministry of Petroleum</span></p>  </div>
   <!-- SCORECARD -->
   <div class="section" id="scorecard">
     <div class="section-num">Final Assessment</div>
@@ -387,8 +389,8 @@
       <tr>
         <td class="val">Petrochemical operations</td>
         <td>Plant closures, force majeures</td>
-        <td class="val">60% utilization, 4+ force majeures in Korea</td>
-        <td style="color: var(--green);">✓ Confirmed</td>
+        <td class="val">60% utilization, 4+ force majeures in Korea. But ~half is supply disruption (no feedstock), not demand destruction (negative margins). True demand destruction: ~600–900 kb/d.</td>
+        <td style="color: var(--accent);">⚠ Reclassified</td>
       </tr>
       <tr>
         <td class="val">Futures curve</td>
@@ -422,10 +424,16 @@
         <strong>Multiple indicators point to real demand destruction — but they are not 7 independent signals.</strong> China imports, refinery run rates, petrochemical shutdowns, naphtha prices, and PMI all track the same transmission channel: Asian industrial/petrochemical demand. That's one finding with five facets, not five separate confirmations. The futures curve and inventory data are genuinely independent — and both point toward supply shock dominance.
       </p>
       <p style="margin-top: 12px;">
+        <strong>Critical classification (per Cozmo review):</strong> The headline ~1.5–2.5 mb/d total is dominated by naphtha/feedstocks, which mixes genuine demand destruction with supply disruption. Strip feedstocks out and <strong>refined product demand destruction is ~0.5–1.0 mb/d</strong> — a very different headline. The IEA's -1.5 mb/d feedstock figure conflates crackers shut because Hormuz feedstock isn't arriving (supply) with crackers shut because margins are negative (demand). True naphtha demand destruction: ~600–900 kb/d.
+      </p>
+      <p style="margin-top: 12px;">
         The supply shock is the dominant force — inventories are falling, not building, and the futures curve is in backwardation (physical shortage), not contango (demand weakness). The honest conclusion is: <strong>demand destruction is capping the price rally, not driving prices down.</strong> The $25–45/bbl suppression estimate is a scenario range based on historical supply/price elasticity — it should be read as a directional signal, not a measured result. Without demand destruction, Brent would likely be in the $130–150+ range; with it, the market is clearing around $100–110.
       </p>
       <p style="margin-top: 12px;">
         The demand destruction is concentrated in <strong>industrial/petrochemical demand</strong> (naphtha, plastics, chemicals), not consumer fuel demand (gasoline, jet fuel). Factories are shutting. Cars are still driving. That's why inventories can fall even as demand destruction is real — the two sectors are decoupling.
+      </p>
+      <p style="margin-top: 12px; padding: 12px; background: rgba(239, 68, 68, 0.08); border-left: 3px solid var(--red);">
+        <strong style="color: var(--red);">Structural confidence limiter:</strong> AU stagflation second-round effects (freight → core goods → services) have no verified volume data until ~May 15. The pump price pass-through model is valid for fuel CPI, but the broader transmission call is running on assumptions, not measured demand response. Flag accordingly.
       </p>
     </div>
   </div>
@@ -443,8 +451,8 @@
       </tr>
       <tr>
         <td class="val">Demand destruction exists in Asian petrochemicals</td>
-        <td><span style="color: var(--green); font-weight: 600;">High</span></td>
-        <td>IEA demand downgrade, LPG/jet fuel/naphtha data, 4+ force majeures, S&P Global / ICIS</td>
+        <td><span style="color: var(--accent); font-weight: 600;">Medium-High</span></td>
+        <td>IEA demand downgrade confirmed, but ~1.5 mb/d headline conflates supply disruption with demand destruction. True demand destruction: ~600–900 kb/d (Cozmo correction). Force majeures and cracker shutdowns verified, but classification matters.</td>
       </tr>
       <tr>
         <td class="val">Supply shock is the dominant force</td>
@@ -471,6 +479,16 @@
         <td><span style="color: var(--accent); font-weight: 600;">Medium</span></td>
         <td>Consistent with analyst commentary; not confirmed in PMI sub-index data directly. Caixin attributes it partly to Spring Festival base effects.</td>
       </tr>
+      <tr>
+        <td class="val">AU stagflation second-round effects (freight → core goods → services)</td>
+        <td><span style="color: var(--red); font-weight: 600;">Low</span></td>
+        <td><strong>Structural data gap.</strong> No verified AU volume data until ~May 15 (ABS petroleum stats). Pump price pass-through model works for fuel CPI, but freight → core goods → services transmission is assumption-based. Q1 CPI (Apr 29) tests fuel component only.</td>
+      </tr>
+      <tr>
+        <td class="val">Demand destruction total: 1.5–2.5 mb/d</td>
+        <td><span style="color: var(--accent); font-weight: 600;">Medium</span></td>
+        <td><strong>Naphtha-dominated and reclassified.</strong> Ex-feedstocks, refined product demand destruction is ~0.5–1.0 mb/d. The 1.5–2.5 mb/d total mixes supply disruption with demand destruction. Both figures should be presented.</td>
+      </tr>
     </table>
   </div>
 
@@ -492,7 +510,7 @@
 </div>
 
 <footer>
-  <p>Built by <strong>Vector</strong> | April 25, 2026 | Bella Platform</p>
+  <p>Built by <strong>Vector</strong> | April 28, 2026 (rev. 3) | Bella Platform | Reviewed by Cozmo</p>
   <p style="margin-top: 8px;">Sources: <a href="https://www.eia.gov">EIA</a> · <a href="https://www.iea.org">IEA</a> · <a href="https://www.caixinglobal.com">Caixin Global</a> · <a href="https://www.spglobal.com">S&P Global Platts</a> · <a href="https://www.cnbc.com">CNBC</a> · <a href="https://www.kpler.com">Kpler</a> · <a href="https://www.dallasfed.org">Dallas Fed</a> · <a href="https://en.sedaily.com">Seoul Economic Daily</a> · <a href="https://cen.acs.org">C&EN (ACS)</a> · <a href="https://www.icis.com">ICIS</a></p>
 </footer>
 
