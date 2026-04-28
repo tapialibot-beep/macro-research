@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Naphtha Crisis & Oil Demand Destruction — Consolidated Analysis (April 2026)</title>
+<style>
+  :root {
+    --bg: #0d1117;
+    --surface: #161b22;
+    --surface2: #1c2333;
+    --border: #30363d;
+    --text: #e6edf3;
+    --text-muted: #8b949e;
+    --accent: #58a6ff;
+    --accent2: #f0883e;
+    --red: #f85149;
+    --green: #3fb950;
+    --yellow: #d29922;
+    --purple: #bc8cff;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    padding: 2rem;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  h1 {
+    font-size: 2rem;
+    border-bottom: 2px solid var(--accent);
+    padding-bottom: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+  .subtitle {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    margin-bottom: 2rem;
+  }
+  h2 {
+    font-size: 1.4rem;
+    color: var(--accent);
+    margin-top: 2.5rem;
+    margin-bottom: 1rem;
+    border-left: 3px solid var(--accent);
+    padding-left: 0.75rem;
+  }
+  h3 {
+    font-size: 1.1rem;
+    color: var(--accent2);
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+  p { margin-bottom: 1rem; }
+  .highlight-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.25rem;
+    margin: 1.5rem 0;
+  }
+  .highlight-box.red { border-left: 4px solid var(--red); }
+  .highlight-box.yellow { border-left: 4px solid var(--yellow); }
+  .highlight-box.green { border-left: 4px solid var(--green); }
+  .highlight-box.blue { border-left: 4px solid var(--accent); }
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
+    margin: 1.5rem 0;
+  }
+  .stat-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1rem;
+    text-align: center;
+  }
+  .stat-card .value {
+    font-size: 2rem;
+    font-weight: 700;
+    display: block;
+    margin-bottom: 0.25rem;
+  }
+  .stat-card .label {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+  }
+  .stat-card.red .value { color: var(--red); }
+  .stat-card.yellow .value { color: var(--yellow); }
+  .stat-card.blue .value { color: var(--accent); }
+  .stat-card.green .value { color: var(--green); }
+  .stat-card.purple .value { color: var(--purple); }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1rem 0;
+    font-size: 0.9rem;
+  }
+  th, td {
+    padding: 0.6rem 0.8rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+  th {
+    background: var(--surface2);
+    color: var(--accent);
+    font-weight: 600;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  tr:hover { background: var(--surface); }
+  .source-tag {
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    font-style: italic;
+  }
+  .chart-container {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin: 1.5rem 0;
+    overflow-x: auto;
+  }
+  .chart-title {
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: var(--text);
+  }
+  .timeline {
+    position: relative;
+    padding-left: 2rem;
+    margin: 1.5rem 0;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 0.5rem;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: var(--border);
+  }
+  .timeline-item {
+    position: relative;
+    margin-bottom: 1.25rem;
+    padding-left: 1rem;
+  }
+  .timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -1.75rem;
+    top: 0.5rem;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--red);
+    border: 2px solid var(--bg);
+  }
+  .timeline-date {
+    font-size: 0.8rem;
+    color: var(--accent);
+    font-weight: 600;
+  }
+  .footer {
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+    color: var(--text-muted);
+    font-size: 0.8rem;
+  }
+  .sources {
+    margin-top: 2.5rem;
+    padding-top: 1.5rem;
+    border-top: 2px solid var(--border);
+  }
+  .sources h2 { border-left-color: var(--text-muted); color: var(--text-muted); }
+  .sources ol {
+    padding-left: 1.5rem;
+    font-size: 0.85rem;
+  }
+  .sources li {
+    margin-bottom: 0.5rem;
+    color: var(--text-muted);
+  }
+  .sources a {
+    color: var(--accent);
+    text-decoration: none;
+  }
+  .sources a:hover { text-decoration: underline; }
+  sup { color: var(--accent); font-size: 0.75rem; cursor: help; }
+  .toc {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.25rem;
+    margin-bottom: 2rem;
+  }
+  .toc-title { font-weight: 600; margin-bottom: 0.75rem; color: var(--accent); }
+  .toc ol { padding-left: 1.5rem; }
+  .toc li { margin-bottom: 0.35rem; }
+  .toc a { color: var(--text); text-decoration: none; }
+  .toc a:hover { color: var(--accent); }
+  @media (max-width: 600px) {
+    body { padding: 1rem; }
+    h1 { font-size: 1.5rem; }
+    .stat-grid { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<h1>The Naphtha Crisis: From Hormuz Blockade to Global Demand Destruction</h1>
+<p class="subtitle">Consolidated Analysis — April 28, 2026 | Prepared by Vector for the Bella Macro Desk</p>
+
+<div class="toc">
+  <div class="toc-title">Contents</div>
+  <ol>
+    <li><a href="#exec-summary">Executive Summary</a></li>
+    <li><a href="#trigger">The Trigger: Strait of Hormuz Blockade</a></li>
+    <li><a href="#naphtha">Naphtha Price Shock</a></li>
+    <li><a href="#shutdowns">Chinese Factory Shutdowns & Run Cuts</a></li>
+    <li><a href="#petchem-restructuring">The Broader Petrochemical Restructuring</a></li>
+    <li><a href="#plastics">Plastics Supply Shock & Price Impact</a></li>
+    <li><a href="#demand-destruction">Oil Demand Destruction</a></li>
+    <li><a href="#policy">Policy Responses</a></li>
+    <li><a href="#implications">Macro Implications</a></li>
+    <li><a href="#sources">Sources</a></li>
+  </ol>
+</div>
+
+<!-- ===================== EXECUTIVE SUMMARY ===================== -->
+<h2 id="exec-summary">1. Executive Summary</h2>
+
+<div class="stat-grid">
+  <div class="stat-card red">
+    <span class="value">$1,000/t</span>
+    <span class="label">Naphtha price (late March)</span>
+  </div>
+  <div class="stat-card yellow">
+    <span class="value">2.8–4M b/d</span>
+    <span class="label">Asia refinery run cuts (Mar–Apr)</span>
+  </div>
+  <div class="stat-card blue">
+    <span class="value">1.3M b/d</span>
+    <span class="label">China crude demand reduction</span>
+  </div>
+  <div class="stat-card purple">
+    <span class="value">50–60%</span>
+    <span class="label">Asian plant utilisation rate</span>
+  </div>
+</div>
+
+<p>On February 28, 2026, the Strait of Hormuz was effectively blockaded, severing approximately 30% of global naphtha supply. Within weeks, naphtha prices surged 60% to $1,000/tonne, triggering a cascade of petrochemical plant shutdowns across Asia. China — the world's largest petrochemical consumer — saw confirmed facility closures, force majeures, and widespread run cuts that collectively removed an estimated 1.3 million barrels per day of crude oil demand.<sup><a href="#src-1">[1]</a><a href="#src-2">[2]</a></sup></p>
+
+<p>This report traces the chain of events from the initial supply disruption through to its impact on plastic prices, petrochemical capacity, and — critically — global oil demand destruction. The story here is not just about naphtha. It is about how a single chokepoint failure can propagate through the entire hydrocarbon value chain, creating a measurable hole in global crude demand at precisely the moment geopolitical risk should be pushing prices higher.</p>
+
+<!-- ===================== THE TRIGGER ===================== -->
+<h2 id="trigger">2. The Trigger: Strait of Hormuz Blockade</h2>
+
+<div class="highlight-box red">
+  <strong>Key fact:</strong> ~30% of global seaborne naphtha trade transits the Strait of Hormuz. When it closed on February 28, 2026, the world's petrochemical industry lost access to its single largest feedstock corridor overnight.<sup><a href="#src-1">[1]</a></sup>
+</div>
+
+<p>The Strait of Hormuz connects the Persian Gulf to the Gulf of Oman and the open ocean. It is the world's most critical oil chokepoint, with roughly 20 million barrels per day of crude and petroleum products flowing through it under normal conditions. For naphtha specifically — the light hydrocarbon fraction used as the primary feedstock for ethylene crackers across Asia — the strait's closure was catastrophic.<sup><a href="#src-1">[1]</a></sup></p>
+
+<p>Middle Eastern producers (Saudi Arabia, UAE, Qatar, Kuwait, Iran) are the dominant suppliers of naphtha to Asian petrochemical complexes. Japan, South Korea, and China are the three largest importers. When the strait closed, these importers faced an immediate and severe feedstock deficit with no realistic short-term alternatives at comparable cost or volume.<sup><a href="#src-1">[1]</a><a href="#src-3">[3]</a></sup></p>
+
+<div class="timeline">
+  <div class="timeline-item">
+    <div class="timeline-date">Feb 28, 2026</div>
+    <p>Strait of Hormuz effectively blockaded. Naphtha tanker traffic halts.</p>
+  </div>
+  <div class="timeline-item">
+    <div class="timeline-date">Early March</div>
+    <p>Spot naphtha prices begin spiking. Asian buyers scramble for Atlantic Basin cargoes.</p>
+  </div>
+  <div class="timeline-item">
+    <div class="timeline-date">March 5</div>
+    <p>Shell-CNOOC (Huizhou) shuts down 1.2M tpy ethylene cracker — first major confirmed closure.<sup><a href="#src-2">[2]</a></sup></p>
+  </div>
+  <div class="timeline-item">
+    <div class="timeline-date">March 6</div>
+    <p>Wanhua Chemical declares force majeure on TDI and MDI (polyurethane intermediates).<sup><a href="#src-3">[3]</a></sup></p>
+  </div>
+  <div class="timeline-item">
+    <div class="timeline-date">Late March</div>
+    <p>Naphtha hits $1,000/tonne. Asian cracker utilisation falls to 50–60%.<sup><a href="#src-1">[1]</a></sup></p>
+  </div>
+  <div class="timeline-item">
+    <div class="timeline-date">April 15</div>
+    <p>Bloomberg reports China's petrochemical producers broadly idling. 10+ plants fully halted across Asia.<sup><a href="#src-4">[4]</a></sup></p>
+  </div>
+</div>
+
+<!-- ===================== NAPHTHA PRICE SHOCK ===================== -->
+<h2 id="naphtha">3. Naphtha Price Shock</h2>
+
+<div class="chart-container">
+  <div class="chart-title">Naphtha Price Trajectory (Feb–Apr 2026)</div>
+  <svg viewBox="0 0 700 300" xmlns="http://www.w3.org/2000/svg">
+    <!-- Grid -->
+    <line x1="60" y1="20" x2="60" y2="250" stroke="#30363d" stroke-width="1"/>
+    <line x1="60" y1="250" x2="680" y2="250" stroke="#30363d" stroke-width="1"/>
+    <!-- Y-axis labels -->
+    <text x="55" y="250" fill="#8b949e" font-size="11" text-anchor="end">$400</text>
+    <text x="55" y="192" fill="#8b949e" font-size="11" text-anchor="end">$550</text>
+    <text x="55" y="135" fill="#8b949e" font-size="11" text-anchor="end">$700</text>
+    <text x="55" y="77" fill="#8b949e" font-size="11" text-anchor="end">$850</text>
+    <text x="55" y="20" fill="#8b949e" font-size="11" text-anchor="end">$1,000</text>
+    <!-- Grid lines -->
+    <line x1="60" y1="192" x2="680" y2="192" stroke="#30363d" stroke-width="0.5" stroke-dasharray="4"/>
+    <line x1="60" y1="135" x2="680" y2="135" stroke="#30363d" stroke-width="0.5" stroke-dasharray="4"/>
+    <line x1="60" y1="77" x2="680" y2="77" stroke="#30363d" stroke-width="0.5" stroke-dasharray="4"/>
+    <line x1="60" y1="20" x2="680" y2="20" stroke="#30363d" stroke-width="0.5" stroke-dasharray="4"/>
+    <!-- X-axis labels -->
+    <text x="100" y="270" fill="#8b949e" font-size="11" text-anchor="middle">Early Feb</text>
+    <text x="230" y="270" fill="#8b949e" font-size="11" text-anchor="middle">Feb 28</text>
+    <text x="370" y="270" fill="#8b949e" font-size="11" text-anchor="middle">Mid Mar</text>
+    <text x="510" y="270" fill="#8b949e" font-size="11" text-anchor="middle">Late Mar</text>
+    <text x="640" y="270" fill="#8b949e" font-size="11" text-anchor="middle">Mid Apr</text>
+    <!-- Blockade event line -->
+    <line x1="230" y1="20" x2="230" y2="250" stroke="#f85149" stroke-width="1.5" stroke-dasharray="6"/>
+    <text x="235" y="35" fill="#f85149" font-size="10">Hormuz blockade</text>
+    <!-- Price line: ~$625 early Feb → ~$625 at blockade → ~$750 mid Mar → ~$1000 late Mar → ~$950 mid Apr -->
+    <polyline points="100,212 180,215 230,210 300,155 370,90 440,35 510,20 570,30 640,38"
+              fill="none" stroke="#f0883e" stroke-width="2.5" stroke-linejoin="round"/>
+    <!-- Data points -->
+    <circle cx="100" cy="212" r="4" fill="#f0883e"/>
+    <circle cx="230" cy="210" r="4" fill="#f85149"/>
+    <circle cx="370" cy="90" r="4" fill="#f0883e"/>
+    <circle cx="510" cy="20" r="5" fill="#f85149"/>
+    <circle cx="640" cy="38" r="4" fill="#f0883e"/>
+    <!-- Labels -->
+    <text x="100" y="205" fill="#f0883e" font-size="10" text-anchor="middle">~$625</text>
+    <text x="510" y="15" fill="#f85149" font-size="11" font-weight="bold" text-anchor="middle">$1,000/t</text>
+    <text x="640" y="55" fill="#f0883e" font-size="10" text-anchor="middle">~$960</text>
+    <!-- Y-axis title -->
+    <text x="15" y="140" fill="#8b949e" font-size="11" text-anchor="middle" transform="rotate(-90,15,140)">$/tonne (CFR Japan)</text>
+  </svg>
+  <p class="source-tag">Source: C&EN, Hydrocarbon Processing, ICIS pricing data<sup><a href="#src-1">[1]</a><a href="#src-5">[5]</a></sup></p>
+</div>
+
+<p>Naphtha prices surged approximately 60% in one month following the blockade. The CFR Japan benchmark — the reference price for Asian naphtha imports — moved from roughly $625/tonne in mid-February to $1,000/tonne by late March 2026.<sup><a href="#src-1">[1]</a></sup></p>
+
+<p>This price move is not just expensive — it breaks the economics of naphtha-based crackers entirely. At $1,000/tonne, most Asian ethylene crackers operate at negative margins. The choice becomes simple: shut down or bleed cash. Most chose to shut down.<sup><a href="#src-1">[1]</a><a href="#src-5">[5]</a></sup></p>
+
+<!-- ===================== CHINA SHUTDOWNS ===================== -->
+<h2 id="shutdowns">4. Chinese Factory Shutdowns & Run Cuts</h2>
+
+<h3>Confirmed Shutdowns</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Facility</th>
+      <th>Location</th>
+      <th>Capacity</th>
+      <th>Status</th>
+      <th>Date</th>
+      <th>Source</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Shell-CNOOC JV (CSPC)</strong></td>
+      <td>Huizhou, Guangdong</td>
+      <td>1.2M tpy ethylene</td>
+      <td style="color: var(--red);">Shut down — PE shipments suspended indefinitely</td>
+      <td>March 5</td>
+      <td><sup><a href="#src-2">[2]</a></sup></td>
+    </tr>
+    <tr>
+      <td><strong>Wanhua Chemical</strong></td>
+      <td>Yantai, Shandong</td>
+      <td>Major MDI/TDI producer</td>
+      <td style="color: var(--red);">Force majeure declared on TDI and MDI</td>
+      <td>March 6</td>
+      <td><sup><a href="#src-3">[3]</a></sup></td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="highlight-box red">
+  <strong>Shell-CNOOC Huizhou</strong> is the clearest data point: a 1.2 million tonne/year ethylene cracker that shut down specifically because of naphtha supply. Polyethylene shipments from the facility were suspended indefinitely. This is not a "maintenance turnaround" — it is a feedstock-forced closure.<sup><a href="#src-2">[2]</a></sup>
+</div>
+
+<h3>Run-Cut / "Maintenance" Territory</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Facility</th>
+      <th>Capacity (ethylene, tpy)</th>
+      <th>Status</th>
+      <th>Source</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Qingdao Lidong Chemical</strong></td>
+      <td>~1,000,000</td>
+      <td style="color: var(--yellow);">Entered "maintenance" — timing overlaps with shortage</td>
+      <td><sup><a href="#src-4">[4]</a><a href="#src-5">[5]</a></sup></td>
+    </tr>
+    <tr>
+      <td><strong>Sinopec Jinling</strong></td>
+      <td>~600,000</td>
+      <td style="color: var(--yellow);">Entered "maintenance" — timing overlaps with shortage</td>
+      <td><sup><a href="#src-4">[4]</a><a href="#src-5">[5]</a></sup></td>
+    </tr>
+    <tr>
+      <td><strong>Formosa Chemicals China</strong></td>
+      <td>~910,000</td>
+      <td style="color: var(--yellow);">Entered "maintenance" — timing overlaps with shortage</td>
+      <td><sup><a href="#src-4">[4]</a><a href="#src-5">[5]</a></sup></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The distinction between a "maintenance turnaround" and an economically-forced shutdown is deliberately blurred by producers. When naphtha costs make operations cash-negative, pulling forward scheduled maintenance is the face-saving way to idle capacity without spooking customers. The timing of these "maintenance" events — all clustering in March 2026 immediately after the Hormuz blockade — is not coincidental.<sup><a href="#src-4">[4]</a></sup></p>
+
+<h3>Broader Asia Impact</h3>
+
+<div class="highlight-box yellow">
+  <strong>Bloomberg (April 15):</strong> China's petrochemical producers are "broadly idling." Across Asia, plants are running at <strong>50–60% utilisation</strong>, with <strong>10+ plants fully halted</strong>.<sup><a href="#src-4">[4]</a></sup>
+</div>
+
+<!-- ===================== PETCHEM RESTRUCTURING ===================== -->
+<h2 id="petchem-restructuring">5. The Broader Petrochemical Restructuring</h2>
+
+<p>The Hormuz shock is not hitting a healthy industry. It is accelerating a structural decline that was already underway.</p>
+
+<div class="chart-container">
+  <div class="chart-title">East Asian Ethylene Capacity Retirements (Planned & Accelerated)</div>
+  <svg viewBox="0 0 700 280" xmlns="http://www.w3.org/2000/svg">
+    <!-- Bars -->
+    <!-- China -->
+    <rect x="100" y="60" width="200" height="40" rx="4" fill="#f85149" opacity="0.8"/>
+    <text x="95" y="85" fill="#e6edf3" font-size="13" text-anchor="end" font-weight="600">China</text>
+    <text x="310" y="85" fill="#e6edf3" font-size="12">7.4M tpy (of 78.2M total)</text>
+    <!-- Japan -->
+    <rect x="100" y="115" width="110" height="40" rx="4" fill="#f0883e" opacity="0.8"/>
+    <text x="95" y="140" fill="#e6edf3" font-size="13" text-anchor="end" font-weight="600">Japan</text>
+    <text x="220" y="140" fill="#e6edf3" font-size="12">~3M tpy</text>
+    <!-- South Korea -->
+    <rect x="100" y="170" width="80" height="40" rx="4" fill="#d29922" opacity="0.8"/>
+    <text x="95" y="195" fill="#e6edf3" font-size="13" text-anchor="end" font-weight="600">S. Korea</text>
+    <text x="190" y="195" fill="#e6edf3" font-size="12">~2.6M tpy</text>
+    <!-- Total -->
+    <line x1="100" y1="230" x2="500" y2="230" stroke="#30363d" stroke-width="1"/>
+    <text x="95" y="250" fill="#8b949e" font-size="12" text-anchor="end">Total</text>
+    <rect x="100" y="235" width="350" height="25" rx="4" fill="#58a6ff" opacity="0.3"/>
+    <text x="460" y="253" fill="#58a6ff" font-size="13" font-weight="600">~13M tpy across East Asia</text>
+  </svg>
+  <p class="source-tag">Source: C&EN, NDRC policy documents<sup><a href="#src-1">[1]</a><a href="#src-6">[6]</a></sup></p>
+</div>
+
+<p>China's National Development and Reform Commission (NDRC) had already earmarked approximately 7.4 million tonnes per year of ethylene cracking capacity for closure by 2027 — targeting plants older than 20 years. Combined with similar rationalisation in Japan (~3M tpy) and South Korea (~2.6M tpy), East Asia is undergoing its largest petrochemical capacity restructuring in decades: <strong>roughly 13 million tonnes per year of ethylene capacity being retired</strong>.<sup><a href="#src-1">[1]</a><a href="#src-6">[6]</a></sup></p>
+
+<p>The Hormuz crisis is collapsing this multi-year timeline into months. Plants that had years of remaining operational life are finding the economics of running on $1,000/tonne naphtha impossible. The "planned" transition is becoming a forced one.<sup><a href="#src-6">[6]</a></sup></p>
+
+<!-- ===================== PLASTICS ===================== -->
+<h2 id="plastics">6. Plastics Supply Shock & Price Impact</h2>
+
+<div class="stat-grid">
+  <div class="stat-card red">
+    <span class="value">+20%</span>
+    <span class="label">PE/PP price increase (March)</span>
+  </div>
+  <div class="stat-card yellow">
+    <span class="value">+15%</span>
+    <span class="label">PET bottle resin increase (March)</span>
+  </div>
+  <div class="stat-card red">
+    <span class="value">+60%</span>
+    <span class="label">Naphtha feedstock increase (1 month)</span>
+  </div>
+  <div class="stat-card purple">
+    <span class="value">25%</span>
+    <span class="label">Global plastic export supply offline</span>
+  </div>
+</div>
+
+<table>
+  <thead>
+    <tr>
+      <th>Product</th>
+      <th>Price Change</th>
+      <th>Context</th>
+      <th>Source</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Polyethylene (PE)</td>
+      <td style="color: var(--red);">+20% (March)</td>
+      <td>US contract prices; global spot higher</td>
+      <td><sup><a href="#src-5">[5]</a><a href="#src-7">[7]</a></sup></td>
+    </tr>
+    <tr>
+      <td>Polypropylene (PP)</td>
+      <td style="color: var(--red);">+20% (March)</td>
+      <td>Critical shortage — food packaging, medical, containers</td>
+      <td><sup><a href="#src-5">[5]</a><a href="#src-7">[7]</a></sup></td>
+    </tr>
+    <tr>
+      <td>PET (bottle resin)</td>
+      <td style="color: var(--yellow);">+15% (March)</td>
+      <td>Beverages, food containers affected</td>
+      <td><sup><a href="#src-7">[7]</a></sup></td>
+    </tr>
+    <tr>
+      <td>Naphtha (feedstock)</td>
+      <td style="color: var(--red);">+60% (1 month)</td>
+      <td>$625 → $1,000/tonne; breaks cracker economics</td>
+      <td><sup><a href="#src-1">[1]</a></sup></td>
+    </tr>
+    <tr>
+      <td>Plastics (broad, Asia)</td>
+      <td style="color: var(--red);">+50–100% (spot)</td>
+      <td>Spot market panic; some grades unavailable at any price</td>
+      <td><sup><a href="#src-4">[4]</a><a href="#src-5">[5]</a></sup></td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="highlight-box yellow">
+  <strong>Polypropylene is the critical shortage.</strong> It goes into food packaging, containers, medical supplies, automotive parts, and textiles. When PP supply drops, it ripples through consumer-facing industries immediately. A German packaging industry survey found <strong>99% of manufacturers</strong> were facing supplier price increases, with most unable to pass costs to customers yet.<sup><a href="#src-7">[7]</a></sup>
+</div>
+
+<h3>The US Advantage</h3>
+<p>US petrochemical producers are ethane-based, not naphtha-dependent. They are insulated from the Hormuz disruption and are now surging exports to fill the gap left by idled Asian capacity. This is an ironic twist: the US is benefiting from a geopolitical supply shock while simultaneously engaged in a tariff war with the same countries it is now supplying.<sup><a href="#src-5">[5]</a></sup></p>
+
+<!-- ===================== DEMAND DESTRUCTION ===================== -->
+<h2 id="demand-destruction">7. Oil Demand Destruction</h2>
+
+<p>This is the section that matters most for crude oil modelling. The petrochemical shutdown reduces crude volumes through two channels — but they are mechanistically different, and the distinction matters for forecasting:</p>
+
+<ol style="margin: 1rem 0; padding-left: 1.5rem;">
+  <li><strong>Direct feedstock loss (demand destruction):</strong> Naphtha crackers shut down because economics turn negative — $1,000/tonne naphtha makes cracker margins cash-negative. Crude demand disappears because buyers <em>choose not to consume</em> at current prices. This is genuine price-driven demand destruction.</li>
+  <li><strong>Refinery run cuts (supply disruption):</strong> Refiners cut throughput primarily because they <em>cannot physically source</em> Mideast crude — Hormuz is closed. This is a supply-side constraint forcing crude off the market, not a demand response. The refiner would run if the crude were available.</li>
+</ol>
+
+<div class="chart-container">
+  <div class="chart-title">Oil Demand Destruction — Asia Refinery Run Cuts (b/d)</div>
+  <svg viewBox="0 0 700 320" xmlns="http://www.w3.org/2000/svg">
+    <!-- Axes -->
+    <line x1="180" y1="30" x2="180" y2="260" stroke="#30363d" stroke-width="1"/>
+    <line x1="180" y1="260" x2="680" y2="260" stroke="#30363d" stroke-width="1"/>
+    <!-- Scale lines -->
+    <text x="175" y="260" fill="#8b949e" font-size="10" text-anchor="end">0</text>
+    <text x="175" y="210" fill="#8b949e" font-size="10" text-anchor="end">1.5M</text>
+    <line x1="180" y1="210" x2="680" y2="210" stroke="#30363d" stroke-width="0.5" stroke-dasharray="4"/>
+    <text x="175" y="160" fill="#8b949e" font-size="10" text-anchor="end">3.0M</text>
+    <line x1="180" y1="160" x2="680" y2="160" stroke="#30363d" stroke-width="0.5" stroke-dasharray="4"/>
+    <text x="175" y="110" fill="#8b949e" font-size="10" text-anchor="end">4.5M</text>
+    <line x1="180" y1="110" x2="680" y2="110" stroke="#30363d" stroke-width="0.5" stroke-dasharray="4"/>
+    <text x="175" y="60" fill="#8b949e" font-size="10" text-anchor="end">6.0M</text>
+    <line x1="180" y1="60" x2="680" y2="60" stroke="#30363d" stroke-width="0.5" stroke-dasharray="4"/>
+    <!-- Bars: scale = (260-60)/6 = 33.33px per 1M b/d; bar_y = 260 - (value * 33.33) -->
+    <!-- China: 1.3M → height=43, y=217 -->
+    <rect x="220" y="217" width="80" height="43" rx="4" fill="#f85149" opacity="0.85"/>
+    <text x="260" y="212" fill="#f85149" font-size="12" text-anchor="middle" font-weight="600">1.3M b/d</text>
+    <text x="260" y="285" fill="#8b949e" font-size="11" text-anchor="middle">China</text>
+    <!-- Asia total March: 2.8M → height=93, y=167 -->
+    <rect x="340" y="167" width="80" height="93" rx="4" fill="#f0883e" opacity="0.85"/>
+    <text x="380" y="162" fill="#f0883e" font-size="12" text-anchor="middle" font-weight="600">2.8M b/d</text>
+    <text x="380" y="285" fill="#8b949e" font-size="11" text-anchor="middle">Asia (Mar)</text>
+    <!-- Asia projected Mar+Apr: 4M → height=133, y=127 -->
+    <rect x="460" y="127" width="80" height="133" rx="4" fill="#d29922" opacity="0.85"/>
+    <text x="500" y="122" fill="#d29922" font-size="12" text-anchor="middle" font-weight="600">4.0M b/d</text>
+    <text x="500" y="285" fill="#8b949e" font-size="11" text-anchor="middle">Asia (Apr est.)</text>
+    <!-- Theoretical max: 6M → height=200, y=60 -->
+    <rect x="580" y="60" width="80" height="200" rx="4" fill="#8b949e" opacity="0.4"/>
+    <rect x="580" y="60" width="80" height="200" rx="4" fill="none" stroke="#8b949e" stroke-width="1.5" stroke-dasharray="4"/>
+    <text x="620" y="55" fill="#8b949e" font-size="12" text-anchor="middle" font-weight="600">6.0M b/d</text>
+    <text x="620" y="285" fill="#8b949e" font-size="11" text-anchor="middle">Worst case</text>
+    <!-- Y-axis label -->
+    <text x="15" y="150" fill="#8b949e" font-size="11" text-anchor="middle" transform="rotate(-90,15,150)">Barrels per day</text>
+  </svg>
+  <p class="source-tag">Source: IEA April Oil Market Report, Hydrocarbon Processing<sup><a href="#src-6">[6]</a><a href="#src-8">[8]</a></sup></p>
+</div>
+
+<table>
+  <thead>
+    <tr>
+      <th>Metric</th>
+      <th>Volume</th>
+      <th>Context</th>
+      <th>Source</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Asia total refinery run cuts (March)</td>
+      <td style="color: var(--red);"><strong>2.8M b/d</strong></td>
+      <td>Actual throughput reduction vs. January baseline</td>
+      <td><sup><a href="#src-6">[6]</a><a href="#src-8">[8]</a></sup></td>
+    </tr>
+    <tr>
+      <td>Asia projected cuts (Mar + Apr)</td>
+      <td style="color: var(--red);"><strong>Up to 4M b/d</strong></td>
+      <td>Includes announced maintenance + economic shutdowns</td>
+      <td><sup><a href="#src-6">[6]</a></sup></td>
+    </tr>
+    <tr>
+      <td>China specifically</td>
+      <td style="color: var(--red);"><strong>1.3M b/d</strong></td>
+      <td>~8% of China's normal ~16M b/d consumption</td>
+      <td><sup><a href="#src-8">[8]</a></sup></td>
+    </tr>
+    <tr>
+      <td>Theoretical max (crisis deepens)</td>
+      <td style="color: var(--yellow);"><strong>6M b/d</strong></td>
+      <td>Hydrocarbon Processing estimate if blockade persists</td>
+      <td><sup><a href="#src-6">[6]</a></sup></td>
+    </tr>
+    <tr>
+      <td>IEA revised global demand (2026 avg)</td>
+      <td style="color: var(--yellow);"><strong>~1M b/d lower</strong></td>
+      <td>Year-average; diluted by normal Q1 pre-blockade</td>
+      <td><sup><a href="#src-8">[8]</a></sup></td>
+    </tr>
+    <tr>
+      <td>Petchem-specific demand loss</td>
+      <td><strong>0.5–1M b/d</strong></td>
+      <td>Feedstock demand only (~15% of crude goes to petchem)</td>
+      <td><sup><a href="#src-6">[6]</a><a href="#src-8">[8]</a></sup></td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="highlight-box blue">
+  <h3 style="margin-top:0">Decomposing the Crude Volume Impact</h3>
+  <p>The total crude demand hit has two components — but they reflect different economic mechanisms:</p>
+  <ul style="margin-top:0.5rem;padding-left:1.5rem;">
+    <li><strong>Petrochemical feedstock loss (~0.5–1M b/d) — True demand destruction:</strong> Crackers shut down because naphtha economics turn negative at $1,000/tonne. Crude demand disappears price-driven — buyers could source the crude but choose not to, because the output (naphtha → ethylene) is cash-negative. This is the same mechanism as the cracker section: demand destruction.<sup><a href="#src-6">[6]</a></sup></li>
+    <li><strong>Refinery throughput cuts (~1.8–3M b/d) — Supply disruption, not demand destruction:</strong> Refiners are cutting runs primarily because Hormuz is physically closed — they <em>cannot source</em> Mideast crude at any price via the normal route. There is no adequate alternative supply at the required volume. This is a supply-side forced reduction. The same analytical distinction applied to the naphtha cracker section (supply disruption vs. demand destruction) applies here: refiners are not reducing consumption by choice; the supply chain has been severed.<sup><a href="#src-8">[8]</a></sup></li>
+  </ul>
+  <p><strong>Net classification:</strong> True price-driven demand destruction is ~0.5–1M b/d (petchem channel). The larger 1.8–3M b/d refinery run-cut figure is supply-disruption-forced reduction — crude that <em>would have been consumed</em> if Hormuz were open. Both reduce crude throughput, but the mechanism matters for forecasting: supply disruption is geopolitically reversible; price-driven demand destruction may persist even after Hormuz reopens if cracker economics remain negative.</p>
+</div>
+
+<div class="chart-container">
+  <div class="chart-title">China Crude Demand Context: 1.3M b/d Reduction</div>
+  <svg viewBox="0 0 700 200" xmlns="http://www.w3.org/2000/svg">
+    <!-- Full bar: 16M b/d normal -->
+    <rect x="60" y="50" width="600" height="50" rx="6" fill="#30363d"/>
+    <text x="360" y="40" fill="#8b949e" font-size="12" text-anchor="middle">China normal consumption: ~16M b/d</text>
+    <!-- Reduction portion -->
+    <rect x="611" y="50" width="49" height="50" rx="0" fill="#f85149" opacity="0.9"/>
+    <!-- Still consuming -->
+    <rect x="60" y="50" width="551" height="50" rx="6" fill="#3fb950" opacity="0.3"/>
+    <!-- Labels -->
+    <text x="330" y="82" fill="#3fb950" font-size="14" text-anchor="middle" font-weight="600">~14.7M b/d (still consuming)</text>
+    <text x="635" y="82" fill="#f85149" font-size="11" text-anchor="middle" font-weight="600">-1.3M</text>
+    <!-- Percentage -->
+    <text x="360" y="135" fill="#e6edf3" font-size="14" text-anchor="middle">An <tspan font-weight="bold" fill="#f85149">8% reduction</tspan> in Chinese crude throughput is not a rounding error — it's a structural hole in global demand.</text>
+    <!-- Context -->
+    <text x="360" y="170" fill="#8b949e" font-size="11" text-anchor="middle">For reference, total global oil demand is ~103M b/d. China alone has removed ~1.3% of global demand.</text>
+  </svg>
+  <p class="source-tag">Source: IEA, EIA<sup><a href="#src-8">[8]</a></sup></p>
+</div>
+
+<div class="highlight-box red">
+  <h3 style="margin-top:0">The Key Insight for Oil Modelling</h3>
+  <p>The IEA's <strong>~1M b/d year-average demand reduction</strong> for 2026 is the headline number, but it's misleading if applied to current conditions. That figure is diluted by Q1 2026 (pre-blockade) when demand was tracking normally. The <strong>acute March–April crude volume reduction of 2.8–4M b/d in Asia alone</strong> is the relevant figure for near-term crude market modelling.</p>
+  <p>Of that 2.8–4M b/d: approximately <strong>0.5–1M b/d reflects true demand destruction</strong> (petchem crackers idled by negative margins); the remaining <strong>1.8–3M b/d reflects supply-disruption-forced run cuts</strong> (refiners who cannot source Mideast crude through a closed Hormuz). The latter is geopolitically driven and more reversible than the headline "demand destruction" label implies.</p>
+  <p>If the Hormuz blockade persists through Q3, Hydrocarbon Processing estimates run cuts could reach <strong>6M b/d</strong> — roughly 6% of global oil demand.<sup><a href="#src-6">[6]</a></sup></p>
+</div>
+
+<!-- ===================== POLICY ===================== -->
+<h2 id="policy">8. Policy Responses</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Country/Entity</th>
+      <th>Response</th>
+      <th>Source</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>China (NDRC)</strong></td>
+      <td>Export ban on refined petroleum products; naphtha import quotas tightened; accelerated retirement of crackers >20 years old (~7.4M tpy earmarked for closure by 2027)</td>
+      <td><sup><a href="#src-6">[6]</a></sup></td>
+    </tr>
+    <tr>
+      <td><strong>Japan/Korea</strong></td>
+      <td>Combined ~5.6M tpy of ethylene capacity earmarked for retirement; strategic petroleum reserve drawdowns to supplement refinery feedstock</td>
+      <td><sup><a href="#src-1">[1]</a></sup></td>
+    </tr>
+    <tr>
+      <td><strong>US producers</strong></td>
+      <td>Ramping up ethane-based cracker output; export volumes surging to Asia to fill supply gap</td>
+      <td><sup><a href="#src-5">[5]</a></sup></td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- ===================== MACRO IMPLICATIONS ===================== -->
+<h2 id="implications">9. Macro Implications</h2>
+
+<div class="highlight-box green">
+  <h3 style="margin-top:0">What This Means</h3>
+  <ol style="padding-left:1.5rem;">
+    <li><strong>Oil price paradox:</strong> A supply chokepoint closure should be bullish for crude, but the demand destruction it triggers is partially offsetting. The net effect depends on duration — short blockade is net bullish, prolonged blockade tilts bearish as demand destruction compounds.</li>
+    <li><strong>Inflationary pulse in consumer goods:</strong> Plastic price increases (+20–100%) will flow through to food packaging, medical supplies, consumer products, and automotive within 2–3 months.</li>
+    <li><strong>Structural shift in petchem geography:</strong> US ethane-based producers gain permanent market share. Asian naphtha-based capacity that shuts down may never restart — the NDRC retirement schedule ensures it.</li>
+    <li><strong>China's consumption profile changes:</strong> 1.3M b/d of demand destruction is ~8% of China's normal throughput. If this persists, it reprices the entire forward curve for Chinese crude imports and weakens the "China demand recovery" thesis that has underpinned many commodity forecasts.</li>
+    <li><strong>Second-order demand destruction:</strong> Factories that can't get plastic feedstock idle their own operations — auto parts, electronics, packaging. This creates a multiplier effect on manufacturing activity and broader economic output.</li>
+  </ol>
+</div>
+
+<!-- ===================== SOURCES ===================== -->
+<div class="sources" id="sources">
+  <h2>10. Sources</h2>
+  <ol>
+    <li id="src-1"><strong>C&EN (Chemical & Engineering News)</strong> — "Hormuz Strait pinch worsens for Asian chemical makers" (March 2026)<br>
+      <a href="https://cen.acs.org/business/petrochemicals/Hormuz-Strait-pinch-worsens-Asian/104/web/2026/03" target="_blank">https://cen.acs.org/business/petrochemicals/Hormuz-Strait-pinch-worsens-Asian/104/web/2026/03</a></li>
+    <li id="src-2"><strong>Hydrocarbon Processing</strong> — "Shell-CNOOC China JV to close 1.2 mmtpy steam cracker due to feedstock disruption" (March 2026)<br>
+      <a href="http://www.hydrocarbonprocessing.com/news/2026/03/shell-cnooc-china-jv-to-close-12-mmtpy-steam-cracker-due-to-feedstock-disruption/" target="_blank">http://www.hydrocarbonprocessing.com/news/2026/03/shell-cnooc-china-jv-to-close-12-mmtpy-steam-cracker-due-to-feedstock-disruption/</a></li>
+    <li id="src-3"><strong>Industry reports / ICIS</strong> — Wanhua Chemical force majeure on TDI and MDI (March 6, 2026). Reported across ICIS, Reuters, and trade press.</li>
+    <li id="src-4"><strong>Bloomberg</strong> — "China's petrochemical producers broadly idling as Hormuz crisis deepens" (April 15, 2026)<br>
+      <a href="https://www.bloomberg.com/news/articles/2026-04-15/china-s-petrochemical-producers-broadly-idling" target="_blank">https://www.bloomberg.com/news/articles/2026-04-15/china-s-petrochemical-producers-broadly-idling</a></li>
+    <li id="src-5"><strong>C&EN</strong> — "Iran war debilitates petrochemicals supply chain" (2026)<br>
+      <a href="https://cen.acs.org/business/petrochemicals/iran-war-petrochemicals/104/web/2026/" target="_blank">https://cen.acs.org/business/petrochemicals/iran-war-petrochemicals/104/web/2026/</a></li>
+    <li id="src-6"><strong>Hydrocarbon Processing</strong> — "Middle East conflict could force up to 6 mmbpd crude run cuts across Asia" (March 2026)<br>
+      <a href="https://www.hydrocarbonprocessing.com/news/2026/03/middle-east-conflict-could-force-up-to-6-mmbpd-crude-run-cuts-across-asia/" target="_blank">https://www.hydrocarbonprocessing.com/news/2026/03/middle-east-conflict-could-force-up-to-6-mmbpd-crude-run-cuts-across-asia/</a></li>
+    <li id="src-7"><strong>German Packaging Industry Survey / European Plastics Converters</strong> — Supplier price increase data (March 2026). Widely reported in European trade press.</li>
+    <li id="src-8"><strong>IEA (International Energy Agency)</strong> — Oil Market Report, April 2026<br>
+      <a href="https://www.iea.org/reports/oil-market-report-april-2026" target="_blank">https://www.iea.org/reports/oil-market-report-april-2026</a></li>
+  </ol>
+</div>
+
+<div class="footer">
+  <p><strong>Report prepared by:</strong> Vector — Bella Macro Desk | April 28, 2026</p>
+  <p><strong>Classification:</strong> Internal — For review and critique by the team</p>
+  <p><em>This report consolidates data from the sources listed above. All claims are attributed. Cozmo — tear it apart.</em></p>
+</div>
+
+</body>
+</html>
