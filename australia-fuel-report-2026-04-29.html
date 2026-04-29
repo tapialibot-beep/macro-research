@@ -1,0 +1,1551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Why Australian Fuel Is Still Affordable — 29 Apr 2026</title>
+<script src="https://cdn.plot.ly/plotly-2.35.0.min.js"></script>
+<style>
+  :root {
+    --bg: #0f1117;
+    --surface: #1a1d27;
+    --surface2: #242836;
+    --border: #2e3348;
+    --text: #e2e4eb;
+    --muted: #8b8fa3;
+    --accent: #4e9af5;
+    --green: #34d399;
+    --red: #f87171;
+    --orange: #fb923c;
+    --yellow: #fbbf24;
+    --purple: #a78bfa;
+    --teal: #2dd4bf;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    line-height: 1.6;
+    padding: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  h1 { font-size: 2rem; font-weight: 700; margin-bottom: 0.25rem; }
+  h2 {
+    font-size: 1.5rem; font-weight: 600; margin-bottom: 1rem;
+    padding-top: 2rem; border-top: 1px solid var(--border);
+  }
+  h3 { font-size: 1.1rem; font-weight: 600; margin-bottom: 0.5rem; color: var(--accent); }
+  .subtitle { color: var(--muted); font-size: 0.95rem; margin-bottom: 0.5rem; }
+  .data-legend {
+    display: flex; gap: 1.5rem; flex-wrap: wrap;
+    margin-bottom: 1rem; padding: 0.75rem 1rem;
+    background: var(--surface2); border-radius: 8px; border: 1px solid var(--border);
+    font-size: 0.8rem;
+  }
+  .data-legend-item { display: flex; align-items: center; gap: 0.4rem; }
+  .legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+  .dot-verified { background: var(--green); }
+  .dot-estimated { background: var(--yellow); }
+  .dot-illustrative { background: var(--orange); }
+  .card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 12px; padding: 1.5rem; margin-bottom: 1.5rem;
+  }
+  .card-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1rem; margin-bottom: 1.5rem;
+  }
+  .stat-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 12px; padding: 1.25rem; text-align: center;
+  }
+  .stat-value { font-size: 2rem; font-weight: 700; color: var(--accent); }
+  .stat-value.green { color: var(--green); }
+  .stat-value.orange { color: var(--orange); }
+  .stat-value.red { color: var(--red); }
+  .stat-value.yellow { color: var(--yellow); }
+  .stat-label { font-size: 0.85rem; color: var(--muted); margin-top: 0.25rem; }
+  .stat-source { font-size: 0.7rem; color: var(--green); margin-top: 0.4rem; font-weight: 600; }
+  .stat-source a { color: var(--green); text-decoration: none; }
+  .stat-source a:hover { text-decoration: underline; }
+  table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+  th, td { padding: 0.75rem 1rem; text-align: left; border-bottom: 1px solid var(--border); }
+  th { color: var(--muted); font-weight: 600; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.05em; }
+  td { font-size: 0.95rem; }
+  .highlight { color: var(--accent); font-weight: 600; }
+  .green-text { color: var(--green); }
+  .red-text { color: var(--red); }
+  .orange-text { color: var(--orange); }
+  .yellow-text { color: var(--yellow); }
+  .callout {
+    background: rgba(78, 154, 245, 0.1); border-left: 4px solid var(--accent);
+    padding: 1rem 1.25rem; border-radius: 0 8px 8px 0; margin: 1rem 0; font-size: 0.95rem;
+  }
+  .callout.warning { background: rgba(251, 146, 60, 0.1); border-left-color: var(--orange); }
+  .callout.danger { background: rgba(248, 113, 113, 0.1); border-left-color: var(--red); }
+  .callout.success { background: rgba(52, 211, 153, 0.1); border-left-color: var(--green); }
+  .callout.estimated { background: rgba(251, 191, 36, 0.1); border-left-color: var(--yellow); }
+  .section-intro { color: var(--muted); font-size: 0.95rem; margin-bottom: 1.5rem; line-height: 1.7; }
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+  @media (max-width: 900px) { .two-col { grid-template-columns: 1fr; } }
+  .badge {
+    display: inline-block; padding: 0.2rem 0.6rem; border-radius: 4px;
+    font-size: 0.75rem; font-weight: 700; text-transform: uppercase;
+  }
+  .badge-red { background: rgba(248, 113, 113, 0.2); color: var(--red); }
+  .badge-green { background: rgba(52, 211, 153, 0.2); color: var(--green); }
+  .badge-orange { background: rgba(251, 146, 60, 0.2); color: var(--orange); }
+  .badge-yellow { background: rgba(251, 191, 36, 0.2); color: var(--yellow); }
+  .badge-verified { background: rgba(52, 211, 153, 0.15); color: var(--green); border: 1px solid rgba(52, 211, 153, 0.4); }
+  .badge-estimated { background: rgba(251, 191, 36, 0.15); color: var(--yellow); border: 1px solid rgba(251, 191, 36, 0.4); }
+  .badge-illustrative { background: rgba(251, 146, 60, 0.15); color: var(--orange); border: 1px solid rgba(251, 146, 60, 0.4); }
+  .chart-source-bar {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 0.75rem; flex-wrap: wrap; gap: 0.5rem;
+  }
+  .chart-source-note { font-size: 0.75rem; color: var(--muted); line-height: 1.5; }
+  .chart-source-note a { color: var(--accent); text-decoration: none; }
+  .chart-source-note a:hover { text-decoration: underline; }
+  .unit-toggle {
+    display: flex; align-items: center; gap: 0.75rem;
+    background: var(--surface2); border: 1px solid var(--border);
+    border-radius: 8px; padding: 0.6rem 1rem; margin-bottom: 1.5rem;
+    font-size: 0.85rem;
+  }
+  .unit-toggle label { cursor: pointer; display: flex; align-items: center; gap: 0.3rem; }
+  .unit-toggle input[type="radio"] { accent-color: var(--accent); cursor: pointer; }
+  .unit-toggle .toggle-label { font-weight: 600; color: var(--muted); }
+  body.unit-bbl .show-ml { display: none; }
+  body.unit-bbl .show-bbl { display: inline; }
+  body.unit-ml .show-bbl { display: none; }
+  body.unit-ml .show-ml { display: inline; }
+  .journey-cards {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 1rem; margin-top: 1rem;
+  }
+  .journey-card {
+    background: var(--surface2); border-radius: 8px; padding: 1rem;
+    border-left: 4px solid var(--border); font-size: 0.85rem;
+  }
+  .journey-card.active { border-left-color: var(--green); }
+  .journey-card.arriving { border-left-color: var(--yellow); }
+  .journey-card.gap { border-left-color: var(--red); }
+  .journey-card .jc-title { font-weight: 700; margin-bottom: 0.5rem; font-size: 0.9rem; }
+  .journey-card .jc-step { display: flex; align-items: center; gap: 0.5rem; margin: 0.3rem 0; color: var(--muted); }
+  .journey-card .jc-step .jc-date { color: var(--text); font-weight: 600; min-width: 70px; }
+  .source-list { list-style: none; padding: 0; margin-top: 0.5rem; }
+  .source-list li { font-size: 0.8rem; color: var(--muted); margin-bottom: 0.25rem; }
+  .source-list a { color: var(--accent); text-decoration: none; }
+  .source-list a:hover { text-decoration: underline; }
+</style>
+</head>
+<body class="unit-ml">
+
+<h1>Why Australian Fuel Is Still Affordable</h1>
+<p class="subtitle">Interactive Report &mdash; 29 April 2026 | Compiled by Tapia | Cross-checked by Cozmo</p>
+
+<div class="data-legend">
+  <strong style="font-size:0.8rem; color:var(--muted);">DATA STATUS KEY:</strong>
+  <div class="data-legend-item"><div class="legend-dot dot-verified"></div> <span><strong style="color:var(--green)">VERIFIED</strong> &mdash; directly sourced from named publication</span></div>
+  <div class="data-legend-item"><div class="legend-dot dot-estimated"></div> <span><strong style="color:var(--yellow)">ESTIMATED</strong> &mdash; calculated from verified inputs</span></div>
+  <div class="data-legend-item"><div class="legend-dot dot-illustrative"></div> <span><strong style="color:var(--orange)">ILLUSTRATIVE</strong> &mdash; shows the mechanism; not precisely measured</span></div>
+</div>
+
+<!-- Unit Toggle -->
+<div class="unit-toggle">
+  <span class="toggle-label">Show volumes in:</span>
+  <label><input type="radio" name="unit" value="ml" checked onchange="setUnit('ml')"> Megalitres (ML)</label>
+  <label><input type="radio" name="unit" value="bbl" onchange="setUnit('bbl')"> Million Barrels (M bbl)</label>
+  <span style="color:var(--muted); font-size:0.75rem; margin-left:0.5rem;">1 barrel = 159 litres &middot; 1 ML &asymp; 6,289 barrels</span>
+</div>
+
+<!-- Data Accuracy Disclaimer -->
+<div class="callout warning">
+  <strong>A note on data accuracy:</strong> Even official Australian sources disagree on exact fuel reserve numbers.
+  <a href="https://www.lastdrop.au/" target="_blank">lastdrop.au</a> and
+  <a href="https://fuelaustralia.org/reserves" target="_blank">fuelaustralia.org</a> show different figures for the same metrics.
+  Government data via DCCEEW uses yet another methodology. <strong>Exact numbers are hard to pin down.</strong>
+  This report uses the best available data with sources cited, but the goal is to illustrate <em>why fuel isn't as crazy as expected</em>, not to provide auditable inventory counts.
+</div>
+
+<!-- ============================================ -->
+<!-- SECTION 1: DOMESTIC FUEL PRICES -->
+<!-- ============================================ -->
+<h2>1. What's Actually Happened to Prices at the Pump</h2>
+
+<div class="card">
+  <div class="chart-source-bar">
+    <h3>Australian Domestic Fuel Prices &mdash; Jan to Apr 2026</h3>
+    <span class="badge badge-verified">ACCC / AIP / NRMA verified</span>
+  </div>
+  <div id="priceChart" style="width:100%; height:420px;"></div>
+  <p class="chart-source-note" style="margin-top:0.5rem;">
+    Petrol (ULP 91) &amp; Diesel: national 5-city average from
+    <a href="https://www.accc.gov.au/about-us/publications/weekly-fuel-price-monitoring-update" target="_blank">ACCC Weekly Fuel Price Monitoring</a>,
+    <a href="http://www.aip.com.au/pricing" target="_blank">AIP Weekly Reports</a>,
+    <a href="https://www.mynrma.com.au/cars-and-driving/fuel-finder/weekly-report" target="_blank">NRMA Weekly Fuel Report</a>.
+    Jet fuel: Singapore Platts benchmark converted to AUD c/L via
+    <a href="https://www.iata.org/en/publications/economics/fuel-monitor/" target="_blank">IATA Fuel Monitor</a> &amp;
+    <a href="https://www.indexmundi.com/commodities/?commodity=jet-fuel&months=12&currency=aud" target="_blank">IndexMundi</a> (approximate &mdash; paywalled spot data).
+    Diesel peaked at <strong>322 c/L</strong> on 31 Mar &mdash; nearly double pre-crisis levels.
+    Excise halved from 52.6 to 26.3 c/L on 1 Apr (<a href="https://www.pm.gov.au/media/fuel-excise-halved-three-months" target="_blank">PM.gov.au</a>).
+  </p>
+</div>
+
+<!-- ============================================ -->
+<!-- SECTION 2: CURRENT RESERVES -->
+<!-- ============================================ -->
+<h2>2. What Australia Has Right Now</h2>
+
+<div class="card-grid">
+  <div class="stat-card">
+    <div class="stat-value green">38.2 days</div>
+    <div class="stat-label">Petrol Reserve (in-country)</div>
+    <div style="font-size:0.8rem; color:var(--muted); margin-top:0.25rem">
+      <span class="show-ml">1,884 ML</span><span class="show-bbl">~11.8M barrels</span>
+    </div>
+    <div class="stat-source">&#10003; <a href="https://www.lastdrop.au/" target="_blank">lastdrop.au</a> &mdash; 21 Apr 2026</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-value orange">30.5 days</div>
+    <div class="stat-label">Diesel Reserve (in-country)</div>
+    <div style="font-size:0.8rem; color:var(--muted); margin-top:0.25rem">
+      <span class="show-ml">3,072 ML</span><span class="show-bbl">~19.3M barrels</span>
+    </div>
+    <div class="stat-source">&#10003; <a href="https://www.lastdrop.au/" target="_blank">lastdrop.au</a> &mdash; 21 Apr 2026</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-value orange">27.5 days</div>
+    <div class="stat-label">Jet Fuel Reserve (in-country)</div>
+    <div style="font-size:0.8rem; color:var(--muted); margin-top:0.25rem">
+      <span class="show-ml">838 ML</span><span class="show-bbl">~5.3M barrels</span>
+    </div>
+    <div class="stat-source">&#10003; <a href="https://www.lastdrop.au/" target="_blank">lastdrop.au</a> &mdash; 21 Apr 2026</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-value yellow">
+      <span class="show-ml">762 ML</span><span class="show-bbl">~4.8M bbl</span>
+    </div>
+    <div class="stat-label">Govt Strategic Reserve Released</div>
+    <div style="font-size:0.8rem; color:var(--muted); margin-top:0.25rem">
+      Adding <span class="show-ml">~100 ML</span><span class="show-bbl">~629k bbl</span>/month to market
+    </div>
+    <div class="stat-source">&#10003; <a href="https://www.sbs.com.au/news/article/australia-fuel-shortage-2026/zl0grg7ey" target="_blank">SBS News</a></div>
+  </div>
+</div>
+
+<div class="callout warning">
+  <strong>Note on reserve figures:</strong> <a href="https://www.lastdrop.au/" target="_blank">lastdrop.au</a> tracks via AIS vessel data and terminal monitoring. <a href="https://fuelaustralia.org/reserves" target="_blank">Fuel Australia</a> uses industry-reported stocks. They <em>disagree</em> on exact numbers. SBS News (mid-March) reported even lower figures (26d diesel, 29d petrol) which were crisis-era lows. <strong>Use lastdrop.au as the most current estimate</strong>, but treat all figures as approximate.
+</div>
+
+<div class="card">
+  <div class="chart-source-bar">
+    <h3>Daily Burn Rate vs Incoming Supply</h3>
+    <div>
+      <span class="badge badge-verified">CONSUMPTION verified</span>
+      &nbsp;<span class="badge badge-estimated">ARRIVALS estimated</span>
+    </div>
+  </div>
+  <div id="burnChart" style="width:100%; height:350px;"></div>
+  <p class="chart-source-note" style="margin-top:0.5rem;">
+    Consumption verified: petrol
+    <span class="show-ml">44 ML/day</span><span class="show-bbl">277k bbl/day</span>,
+    diesel <span class="show-ml">92 ML/day</span><span class="show-bbl">579k bbl/day</span> &mdash;
+    <a href="https://www.sbs.com.au/news/article/australia-fuel-shortage-2026/zl0grg7ey" target="_blank">SBS News</a>.
+    Jet fuel <span class="show-ml">~28 ML/day</span><span class="show-bbl">~176k bbl/day</span> derived from lastdrop.au reserves &divide; days of cover.
+    <strong>Incoming supply is still roughly matching consumption</strong> because fuel arriving NOW was contracted pre-crisis and is still flowing through the supply pipeline.
+    This rate will decline as the pre-crisis pipeline clears (see timeline below).
+  </p>
+</div>
+
+<!-- ============================================ -->
+<!-- SECTION 3: SUPPLY PIPELINE - WORLD MAP -->
+<!-- ============================================ -->
+<h2>3. From Crude to Your Car &mdash; The Supply Pipeline</h2>
+
+<p class="section-intro">
+  Fuel takes <strong>6&ndash;8 weeks</strong> from crude extraction to Australian petrol station.
+  This lag is why we're still receiving fuel today that was secured <em>before the crisis even started</em>.
+  Australia imports ~90% of fuel as <strong>refined product</strong> from Asian refineries &mdash; not directly from the Middle East.
+  <span style="font-size:0.8rem; color:var(--green)">&#10003; <a href="https://www.sbs.com.au/news/article/australia-fuel-shortage-2026/zl0grg7ey" target="_blank" style="color:var(--green)">SBS News</a></span>
+</p>
+
+<div class="card">
+  <div class="chart-source-bar">
+    <h3>Supply Route Map &mdash; Middle East &rarr; Asian Refineries &rarr; Australia</h3>
+    <span class="badge badge-verified">Routes verified &mdash; transit times industry standard</span>
+  </div>
+  <div id="mapChart" style="width:100%; height:500px;"></div>
+  <p class="chart-source-note" style="margin-top:0.5rem;">
+    Routes: Hormuz crude route (BLOCKED since 28 Feb &mdash; <a href="https://en.wikipedia.org/wiki/2026_Strait_of_Hormuz_crisis" target="_blank">Wikipedia</a>).
+    Bypass via Saudi East-West pipeline to Yanbu (Red Sea) &mdash;
+    <a href="https://fortune.com/2026/03/28/saudi-arabia-east-west-oil-pipeline-strait-hormuz-bypass-7-million-barrels-yanbu-red-sea/" target="_blank">Fortune</a>.
+    Refined product routes from Singapore, South Korea, Malaysia to Australia &mdash;
+    <a href="https://www.mynrma.com.au/open-road/news/2026/australia-fuel-supply-chain-facts" target="_blank">NRMA</a>.
+  </p>
+</div>
+
+<!-- Journey Timeline Cards -->
+<div class="journey-cards">
+  <div class="journey-card active">
+    <div class="jc-title" style="color:var(--green);">&#10003; Last Pre-Crisis Cargo (the tail end we're burning now)</div>
+    <div class="jc-step"><span class="jc-date">~27 Feb</span> Last crude loaded at Ras Tanura before Hormuz closure (28 Feb)</div>
+    <div class="jc-step"><span class="jc-date">~18 Mar</span> Arrives Singapore/Korea refinery (20 days sailing)</div>
+    <div class="jc-step"><span class="jc-date">~7 Apr</span> Refined into petrol/diesel/jet (2&ndash;3 weeks processing)</div>
+    <div class="jc-step"><span class="jc-date">~17 Apr</span> Arrives Australian ports (7&ndash;12 days sailing)</div>
+    <div style="margin-top:0.5rem; color:var(--yellow); font-weight:600; font-size:0.8rem;">
+      &#9888; This last pre-crisis cargo arrived mid-April. We are NOW burning through the final end of the pre-crisis pipeline.
+    </div>
+  </div>
+  <div class="journey-card arriving">
+    <div class="jc-title" style="color:var(--yellow);">&#9202; Bypass Cargo (arriving now &amp; next 2 weeks)</div>
+    <div class="jc-step"><span class="jc-date">~28 Mar</span> Crude loaded at Yanbu (Saudi bypass pipeline hit max — 7 mb/d pipeline, ~4 mb/d port-limited)</div>
+    <div class="jc-step"><span class="jc-date">~19 Apr</span> Arrives Asian refinery (~22 days via Red Sea + Indian Ocean)</div>
+    <div class="jc-step"><span class="jc-date">~10 May</span> Refined into product (~3 weeks)</div>
+    <div class="jc-step"><span class="jc-date">~20 May</span> Arrives Australia (10 days sailing)</div>
+    <div style="margin-top:0.5rem; color:var(--yellow); font-weight:600; font-size:0.8rem;">
+      &#9888; Effective bypass capacity ~7.1 mb/d (Yanbu port limit ~4 mb/d + UAE 1.5 + Iraq 1.6) vs 20 mb/d through Hormuz.
+    </div>
+  </div>
+  <div class="journey-card gap">
+    <div class="jc-title" style="color:var(--red);">&#9888; The Gap (June onwards)</div>
+    <div class="jc-step"><span class="jc-date">Mid-May</span> Asian refinery pre-crisis crude stocks exhausted</div>
+    <div class="jc-step"><span class="jc-date">Late May</span> Refineries running on bypass + IEA reserve crude only</div>
+    <div class="jc-step"><span class="jc-date">June</span> Post-crisis refined product must arrive to bridge supply</div>
+    <div class="jc-step"><span class="jc-date">June+</span> If insufficient &rarr; diesel goes critical first (lowest cover)</div>
+    <div style="margin-top:0.5rem; color:var(--red); font-weight:600; font-size:0.8rem;">
+      AU govt contracted <span class="show-ml">200 ML</span><span class="show-bbl">~1.26M bbl</span> diesel from Korea/Brunei/Malaysia for late May &mdash;
+      <a href="https://www.sbs.com.au/news/article/australia-fuel-shortage-2026/zl0grg7ey" target="_blank" style="color:var(--red)">SBS</a>
+    </div>
+  </div>
+</div>
+
+<div class="card" style="margin-top:1.5rem;">
+  <div class="chart-source-bar">
+    <h3>Supply Chain Timeline &mdash; What Happened and What's Coming</h3>
+    <span class="badge badge-verified">Key events verified</span>
+  </div>
+  <div id="timelineChart" style="width:100%; height:450px;"></div>
+  <p class="chart-source-note" style="margin-top:0.5rem;">
+    <strong>Left axis (blue line):</strong> Hormuz throughput in million barrels per day &mdash;
+    <a href="https://www.aljazeera.com/news/2026/4/14/global-oil-demand-to-plunge-amid-middle-east-war-disruptions" target="_blank">Al Jazeera / IEA</a>,
+    <a href="https://windward.ai/blog/april-28-maritime-intelligence-daily/" target="_blank">Windward Maritime</a>.
+    <strong>Right axis (green line):</strong> Estimated AU fuel buffer days &mdash;
+    <a href="https://www.lastdrop.au/" target="_blank">lastdrop.au</a> (current), trajectory estimated.
+    Flow dropped suddenly on Feb 28&ndash;Mar 4 (not gradually) &mdash; insurers pulled war-risk cover, IRGC declared "full control."
+    Events annotated with verified sources.
+  </p>
+</div>
+
+<div class="callout success">
+  <strong>Key insight:</strong> As of today (29 Apr), fuel arriving in Australia was crude loaded roughly <strong>early&ndash;mid March</strong>.
+  Some is the last of the pre-crisis crude that was already at Asian refineries. Some is early bypass crude from the Saudi East-West pipeline.
+  We have <strong>not yet felt the full impact</strong> of the Hormuz closure.
+  That hits in <strong>June</strong> if Hormuz stays closed.
+</div>
+
+<!-- ============================================ -->
+<!-- SECTION 4: WHERE FUEL COMES FROM -->
+<!-- ============================================ -->
+<h2>4. Australia's Fuel Sources &mdash; Not Through Hormuz</h2>
+
+<div class="two-col">
+  <div class="card">
+    <div class="chart-source-bar">
+      <h3>Refined Fuel Import Sources — Pre-Crisis vs Now</h3>
+      <span class="badge badge-estimated">Pre-crisis share: firstlinks.com.au / energy.gov.au &mdash; current status from news reporting</span>
+    </div>
+    <div id="importSourceChart" style="width:100%; height:360px;"></div>
+    <p class="chart-source-note" style="margin-top:0.5rem;">
+      Pre-crisis shares: South Korea 32%, Singapore 23%, Malaysia 23%, China ~8% (mostly jet fuel), Other ~14%.
+      All four major refinery nations are <em>outside</em> Hormuz shipping lanes — but all rely on Gulf crude.
+      Sources: <a href="https://www.firstlinks.com.au/the-refinery-problem-a-different-kind-of-energy-crisis-in-2026" target="_blank" style="color:var(--accent)">firstlinks.com.au</a>,
+      <a href="https://www.energy.gov.au/energy-data/australian-petroleum-statistics" target="_blank" style="color:var(--accent)">energy.gov.au APS</a>,
+      <a href="https://www.statista.com/statistics/674596/australia-petroleum-import-volume-by-country-of-origin/" target="_blank" style="color:var(--accent)">Statista</a>
+    </p>
+  </div>
+  <div class="card">
+    <h3>Government Emergency Actions</h3>
+    <table>
+      <tr>
+        <td>Strategic reserve released</td>
+        <td class="highlight">
+          <span class="show-ml">762 ML</span><span class="show-bbl">~4.8M bbl</span>
+          <span style="font-size:0.7rem; color:var(--green)">&#10003; SBS</span>
+        </td>
+      </tr>
+      <tr>
+        <td>Monthly market additions</td>
+        <td class="highlight">
+          <span class="show-ml">~100 ML/month</span><span class="show-bbl">~629k bbl/month</span>
+          <span style="font-size:0.7rem; color:var(--green)">&#10003; SBS</span>
+        </td>
+      </tr>
+      <tr><td>IEA coordinated global release</td><td class="highlight">~400M barrels global <span style="font-size:0.7rem; color:var(--green)">&#10003; <a href="https://www.cnbc.com/2026/03/11/iea-oil-reserves-crude-prices-iran-g7-energy.html" target="_blank" style="color:var(--green)">CNBC</a></span></td></tr>
+      <tr><td>Fuel excise halved</td><td class="highlight">52.6 &rarr; 26.3 c/L (3 months) <span style="font-size:0.7rem; color:var(--green)">&#10003; <a href="https://www.pm.gov.au/media/fuel-excise-halved-three-months" target="_blank" style="color:var(--green)">PM.gov.au</a></span></td></tr>
+      <tr><td>Fuel quality relaxed</td><td class="highlight">10&rarr;50 ppm sulphur, 60 days <span style="font-size:0.7rem; color:var(--green)">&#10003; SBS</span></td></tr>
+      <tr><td>Domestic refineries</td><td class="highlight">2 (Geelong + Brisbane) <span style="font-size:0.7rem; color:var(--green)">&#10003; SBS</span></td></tr>
+      <tr><td>57 ships en route</td><td class="highlight">Refined product (petrol/diesel/jet) <span style="font-size:0.7rem; color:var(--green)">&#10003; <a href="https://www.canberratimes.com.au/story/9219817/fuel-ships-inbound-but-supply-uncertainty-lingers/" target="_blank" style="color:var(--green)">Canberra Times</a></span></td></tr>
+      <tr><td>Bilateral deal with Singapore</td><td class="orange-text">Reported <span style="font-size:0.7rem; color:var(--yellow)">~ reported</span></td></tr>
+      <tr><td>Emergency diesel contracted</td><td class="highlight"><span class="show-ml">200 ML</span><span class="show-bbl">~1.26M bbl</span> from Korea/Brunei/Malaysia <span style="font-size:0.7rem; color:var(--green)">&#10003; SBS</span></td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- Supplier Status Table -->
+<div class="card" style="margin-top:1rem;">
+  <div class="chart-source-bar">
+    <h3>Supplier Status: What Changed After 28 Feb</h3>
+    <span class="badge badge-verified">All key events verified via news sources</span>
+  </div>
+  <div class="callout warning" style="margin-bottom:1rem;">
+    <strong>Singapore refinery utilization ~55%</strong> — fuelaustralia.org reports ~55% aggregate utilization.
+    This is consistent with verified facility-level data:
+    ExxonMobil Jurong Island cut to <strong>&le;50%</strong> and Singapore Refining Co reduced to <strong>60%</strong>
+    (source: <a href="https://www.firstlinks.com.au/the-refinery-problem-a-different-kind-of-energy-crisis-in-2026" target="_blank" style="color:var(--yellow)">firstlinks.com.au</a>). The 55% figure is <strong>broadly verified</strong>.
+  </div>
+  <table>
+    <thead>
+      <tr><th>Supplier</th><th>Pre-crisis share</th><th>Status</th><th>Est. current flow</th><th>Key event / source</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>South Korea</strong></td>
+        <td>~32% of imports</td>
+        <td><span class="badge badge-orange">CAPPED</span></td>
+        <td class="orange-text">~85% of pre-crisis</td>
+        <td>Mar 13: Export cap at 2025 monthly levels.
+          Reserves fell to 26 days after 22.5M bbl IEA release.
+          <span style="color:var(--green)">✓</span>
+          <a href="https://www.argusmedia.com/en/news-and-insights/latest-market-news/2801979-south-korea-caps-fuel-exports-to-safeguard-supply" target="_blank" style="color:var(--accent)">Argus Media</a>
+        </td>
+      </tr>
+      <tr>
+        <td><strong>Singapore</strong></td>
+        <td>~23% of imports</td>
+        <td><span class="badge badge-orange">REDUCED</span></td>
+        <td class="orange-text">~55% of pre-crisis</td>
+        <td>Refineries running at ~55% utilization. ExxonMobil Jurong &le;50%, Singapore Refining Co at 60%.
+          <span style="color:var(--green)">✓</span>
+          <a href="https://www.firstlinks.com.au/the-refinery-problem-a-different-kind-of-energy-crisis-in-2026" target="_blank" style="color:var(--accent)">firstlinks.com.au</a>
+          / fuelaustralia.org
+        </td>
+      </tr>
+      <tr>
+        <td><strong>Malaysia</strong></td>
+        <td>~23% of imports</td>
+        <td><span class="badge badge-yellow">REDUCED</span></td>
+        <td class="yellow-text">~75% of pre-crisis <span style="color:var(--yellow)">~</span></td>
+        <td>Less reported — also reliant on Gulf crude. Estimated reduction proportional to crude supply squeeze.
+          <span style="color:var(--yellow)">~ estimated</span>
+        </td>
+      </tr>
+      <tr>
+        <td><strong>China</strong></td>
+        <td>~28% of JET FUEL<br><small style="color:var(--muted)">(~8% of all fuel imports)</small></td>
+        <td><span class="badge badge-red">BANNED</span></td>
+        <td class="red-text">0%</td>
+        <td>12 Mar: China banned all fuel exports (petrol, diesel, jet fuel) to preserve domestic supply.
+          Jet fuel: AU was importing 36 kb/d from China = 28% of all jet fuel.
+          <span style="color:var(--green)">✓</span>
+          <a href="https://thenightly.com.au/australia/jet-fuel-crisis-threatens-australias-skies-by-june-c-22181201" target="_blank" style="color:var(--accent)">The Nightly</a>
+          / <a href="https://crudeoilpeak.info/china-fuel-exports-suspension-australia-will-have-to-replace-28-of-its-jet-fuel-imports-from-other-countries" target="_blank" style="color:var(--accent)">crudeoilpeak.info</a>
+        </td>
+      </tr>
+      <tr>
+        <td><strong>Other spot market</strong></td>
+        <td>~14% of imports</td>
+        <td><span class="badge badge-green">SUPPLEMENTED</span></td>
+        <td class="green-text">~130% of pre-crisis</td>
+        <td>AU purchasing spot cargoes from US, West Africa, Brunei. 57 contracted tankers en route.
+          <span style="color:var(--green)">✓</span>
+          <a href="https://www.canberratimes.com.au/story/9219817/fuel-ships-inbound-but-supply-uncertainty-lingers/" target="_blank" style="color:var(--accent)">Canberra Times</a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- AU Import Shortfall Section -->
+<div class="card" style="margin-top:1rem;">
+  <div class="chart-source-bar">
+    <h3>Australia's Import Shortfall &mdash; And How the Gap Gets Filled</h3>
+    <span class="badge badge-illustrative">ILLUSTRATIVE &mdash; volumes estimated; mechanism verified</span>
+  </div>
+  <div class="callout estimated" style="margin-bottom:1rem;">
+    <strong>⚠ Estimated net shortfall: ~25–30% below pre-crisis import volumes.</strong>
+    No real-time import data is publicly available — this is analyst modelling based on verified supplier utilization rates and export cap news.
+  </div>
+  <div id="importShortfallChart" style="width:100%; height:450px;"></div>
+  <p class="chart-source-note" style="margin-top:0.5rem;">
+    <strong>Shortfall anchors:</strong>
+    Singapore at 55% utilization (<a href="https://www.firstlinks.com.au/the-refinery-problem-a-different-kind-of-energy-crisis-in-2026" target="_blank">firstlinks.com.au</a>);
+    Korea capped (<a href="https://www.argusmedia.com/en/news-and-insights/latest-market-news/2801979-south-korea-caps-fuel-exports-to-safeguard-supply" target="_blank">Argus Media</a>);
+    China ban — 28% of jet fuel (<a href="https://crudeoilpeak.info/china-fuel-exports-suspension-australia-will-have-to-replace-28-of-its-jet-fuel-imports-from-other-countries" target="_blank">crudeoilpeak.info</a>).<br>
+    <strong>Gap fill anchors (verified):</strong>
+    IEA 400M bbl release (<a href="https://www.cnbc.com/2026/03/11/iea-oil-reserves-crude-prices-iran-g7-energy.html" target="_blank">CNBC</a>);
+    AU strategic reserve 762 ML (<a href="https://www.sbs.com.au/news/article/australia-fuel-shortage-2026/zl0grg7ey" target="_blank">SBS</a>);
+    Q2 demand drop -1.5M bpd (<a href="https://www.aljazeera.com/news/2026/4/14/global-oil-demand-to-plunge-amid-middle-east-war-disruptions" target="_blank">Al Jazeera/IEA</a>).
+    <strong>Gap fill splits are analyst judgment</strong>.
+  </p>
+</div>
+
+<!-- ============================================ -->
+<!-- SECTION 5: DEMAND DESTRUCTION -->
+<!-- ============================================ -->
+<h2>5. Why Prices Haven't Gone Crazier &mdash; Demand Destruction</h2>
+
+<p class="section-intro">
+  When oil hits $90&ndash;100/bbl, rich countries feel the pinch but can still pay. Poor countries
+  <strong>literally cannot afford it</strong> and cut back. Their lost demand frees up supply for buyers who can pay &mdash; like Australia.
+</p>
+
+<div class="card">
+  <div class="chart-source-bar">
+    <h3>IEA 2026 Global Oil Demand Forecast Revision</h3>
+    <span class="badge badge-verified">VERIFIED &mdash; Al Jazeera / IEA Apr 2026</span>
+  </div>
+  <div id="demandRevisionChart" style="width:100%; height:300px;"></div>
+  <div class="callout warning" style="margin-top:1rem;">
+    <strong>Verified:</strong> IEA April report &mdash; global demand expected to <em>shrink</em> by <strong>-80,000 bbl/day</strong>.
+    Previous forecast was growth of +640k&ndash;730k bbl/day. Q2 alone: <strong>-1.5 million bpd</strong> &mdash;
+    <em>"deepest contraction since COVID-19"</em> &mdash;
+    <a href="https://www.aljazeera.com/news/2026/4/14/global-oil-demand-to-plunge-amid-middle-east-war-disruptions" target="_blank">Al Jazeera</a>
+  </div>
+</div>
+
+<div class="card">
+  <h3>Country-Level Demand Destruction &mdash; The Human Cost</h3>
+  <table>
+    <thead>
+      <tr><th>Country</th><th>Pre-crisis demand</th><th>Measures Taken</th><th>Impact</th><th>Status</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Vietnam</strong></td>
+        <td>~500k bbl/d</td>
+        <td>Work-from-home orders nationwide</td>
+        <td class="red-text">Severe &mdash; 95% import dependent</td>
+        <td><span class="badge badge-estimated">~ reported</span></td>
+      </tr>
+      <tr>
+        <td><strong>Philippines</strong></td>
+        <td>~450k bbl/d</td>
+        <td>4-day workweek, holding 45&ndash;50 day reserves</td>
+        <td class="red-text">Critical &mdash; 98% import dependent</td>
+        <td><span class="badge badge-estimated">~ reported</span></td>
+      </tr>
+      <tr>
+        <td><strong>Bangladesh</strong></td>
+        <td>~130k bbl/d</td>
+        <td>Power-sector demand destruction, gas deficit &gt;1,300 mcf/d</td>
+        <td class="red-text">Severe &mdash; 72% LNG from Qatar/UAE</td>
+        <td><span class="badge badge-estimated">~ reported</span></td>
+      </tr>
+      <tr>
+        <td><strong>Pakistan</strong></td>
+        <td>~450k bbl/d</td>
+        <td>Slashing LNG/fuel imports, limited storage</td>
+        <td class="red-text">Severe &mdash; "fast demand destruction"</td>
+        <td><span class="badge badge-estimated">~ reported</span></td>
+      </tr>
+      <tr>
+        <td><strong>Australia</strong></td>
+        <td>~1,030k bbl/d</td>
+        <td>Strategic reserve release, excise halved, bilateral deals</td>
+        <td class="green-text">Manageable &mdash; can afford $100 oil</td>
+        <td><span class="badge badge-verified">&#10003; SBS / lastdrop</span></td>
+      </tr>
+    </tbody>
+  </table>
+  <p class="chart-source-note">Policy responses drawn from news reporting. Pre-crisis demand figures approximate.</p>
+</div>
+
+<!-- ============================================ -->
+<!-- SECTION 6: PRICING WATERFALL -->
+<!-- ============================================ -->
+<h2>6. How the Supply Loss Gets Absorbed Before Hitting Your Pump</h2>
+
+<div class="callout estimated">
+  <strong>&#9888; ILLUSTRATIVE SECTION</strong> &mdash; The waterfall below illustrates <em>how</em> the supply shock is being absorbed.
+  Anchor points are verified (10.1 mb/d disruption; 400M barrel IEA release; 1.5M bpd Q2 demand drop; 762 ML AU reserve release).
+  The split across categories is analyst judgment.
+</div>
+
+<div class="card">
+  <div class="chart-source-bar">
+    <h3>How 10.1M bbl/d Supply Loss Gets Absorbed</h3>
+    <span class="badge badge-illustrative">ILLUSTRATIVE &mdash; anchors verified, splits estimated</span>
+  </div>
+  <div id="waterfallChart" style="width:100%; height:450px;"></div>
+  <p class="chart-source-note" style="margin-top:0.5rem;">
+    <strong>Verified anchors:</strong>
+    10.1 mb/d Hormuz disruption (<a href="https://www.aljazeera.com/news/2026/4/14/global-oil-demand-to-plunge-amid-middle-east-war-disruptions" target="_blank">Al Jazeera / IEA</a>);
+    IEA 400M barrel reserve release (<a href="https://www.cnbc.com/2026/03/11/iea-oil-reserves-crude-prices-iran-g7-energy.html" target="_blank">CNBC</a>);
+    Q2 demand drop 1.5M bpd (<a href="https://www.aljazeera.com/news/2026/4/14/global-oil-demand-to-plunge-amid-middle-east-war-disruptions" target="_blank">Al Jazeera</a>);
+    AU strategic reserve
+    <span class="show-ml">762 ML</span><span class="show-bbl">~4.8M bbl</span>
+    (<a href="https://www.sbs.com.au/news/article/australia-fuel-shortage-2026/zl0grg7ey" target="_blank">SBS</a>).
+    Bypass capacity: 3 pipelines totalling ~9 mb/d (<a href="https://www.aljazeera.com/economy/2026/3/27/saudi-uae-iraq-can-three-pipelines-help-oil-escape-strait-of-hormuz" target="_blank">Al Jazeera</a>).
+  </p>
+</div>
+
+<div class="card">
+  <div class="chart-source-bar">
+    <h3>Cargo Redirection &mdash; Who Lost Their Fuel So Australia Could Keep Theirs</h3>
+    <span class="badge badge-illustrative">FULLY ILLUSTRATIVE &mdash; mechanism diagram, not measured volumes</span>
+  </div>
+  <div id="cargoChart" style="width:100%; height:350px;"></div>
+  <p style="font-size:0.85rem; color:var(--muted); margin-top:0.75rem;">
+    When Bangladesh can't afford a tanker at $100/bbl, that tanker hits the spot market. Australia &mdash; backed by government underwriting &mdash; bids and wins.
+  </p>
+  <p class="chart-source-note" style="margin-top:0.5rem;">
+    <strong>&#9888; Flow proportions are illustrative.</strong> No public source tracks exact cargo redirection by country in real time.
+    The qualitative mechanism is consistent with IEA market commentary.
+  </p>
+</div>
+
+<!-- ============================================ -->
+<!-- SECTION 7: WHAT HAPPENS NEXT -->
+<!-- ============================================ -->
+<h2>7. The Clock Is Ticking</h2>
+
+<div class="card">
+  <div class="chart-source-bar">
+    <h3>Projected Days of Cover &mdash; If Hormuz Stays Closed</h3>
+    <span class="badge badge-estimated">Starting points verified &mdash; trajectory estimated</span>
+  </div>
+  <div id="runwayChart" style="width:100%; height:350px;"></div>
+  <p class="chart-source-note" style="margin-top:0.5rem;">
+    Starting reserves from <a href="https://www.lastdrop.au/" target="_blank">lastdrop.au</a> (21 Apr 2026).
+    Trajectory is a <strong>scenario model</strong>: assumes consumption stays constant, supply declines as pre-crisis pipeline clears.
+    Actual outcome depends on crisis duration and government response.
+  </p>
+</div>
+
+<div class="callout danger">
+  <strong>Critical window:</strong> If Hormuz stays closed past June, the pre-crisis pipeline runs dry, Asian refineries exhaust their crude, and demand destruction alone won't bridge a 10.1 mb/d supply gap. Diesel goes critical first (30 days cover vs 38 petrol).
+  <br><br>
+  <strong>Early warning signs:</strong>
+  Virgin Australia says suppliers haven't provided jet fuel assurances beyond May.
+  Qantas has cut 5% of domestic flights for May 18&ndash;Jun 30
+  (<a href="https://thenightly.com.au/australia/jet-fuel-crisis-threatens-australias-skies-by-june-c-22181201" target="_blank">The Nightly</a>).
+</div>
+
+<div class="card" style="margin-top: 1.5rem;">
+  <h3>Bottom Line</h3>
+  <p style="font-size: 1.05rem; line-height: 1.8;">Australian fuel is still affordable because of <strong>three compounding buffers</strong>:</p>
+  <ol style="margin: 1rem 0; padding-left: 1.5rem; line-height: 2.2;">
+    <li>
+      <strong>Pipeline lag</strong> &mdash; fuel arriving now was loaded pre-crisis (~6&ndash;8 week transit). You're still drinking from the pre-war pipeline.<br>
+      <span style="font-size:0.8rem; color:var(--green)">&#10003; lastdrop.au shows fuel actively arriving; transit time confirmed by NRMA</span>
+    </li>
+    <li>
+      <strong>Demand destruction</strong> &mdash; poor countries priced out at $90&ndash;100 oil free up tanker capacity for wealthy buyers.<br>
+      <span style="font-size:0.8rem; color:var(--green)">&#10003; Al Jazeera / IEA &mdash; Q2 2026 global demand down 1.5M bpd, deepest since COVID</span>
+    </li>
+    <li>
+      <strong>Government action</strong> &mdash;
+      <span class="show-ml">762 ML</span><span class="show-bbl">~4.8M bbl</span>
+      reserve released, excise halved, 57 tankers underwritten, bilateral deals.<br>
+      <span style="font-size:0.8rem; color:var(--green)">&#10003; SBS News, PM.gov.au, Canberra Times</span>
+    </li>
+  </ol>
+  <p style="font-size: 0.95rem; color: var(--orange); margin-top: 1rem;">
+    &#9888; <strong>The risk:</strong> These are all <em>temporary</em> buffers. If Hormuz stays closed past June, diesel goes critical first.
+  </p>
+</div>
+
+<!-- ============================================ -->
+<!-- SECTION 8: UAE OPEC EXIT + FUJAIRAH BUFFER -->
+<!-- ============================================ -->
+<h2>8. Breaking: UAE Exits OPEC — A Hidden Buffer Building at Fujairah</h2>
+
+<div class="callout success" style="margin-bottom:1rem;">
+  <strong>&#10003; Verified — April 28, 2026:</strong> UAE announced it is leaving OPEC and OPEC+, effective May 1.
+  <a href="https://www.aljazeera.com/news/2026/4/28/uae-leaves-opec-and-opec" target="_blank" style="color:var(--green)">Al Jazeera</a> /
+  <a href="https://www.cnbc.com/2026/04/28/uae-opec-oil-iran.html" target="_blank" style="color:var(--green)">CNBC</a> /
+  <a href="https://www.axios.com/2026/04/28/uae-leaves-opec" target="_blank" style="color:var(--green)">Axios</a>
+</div>
+
+<div class="card-grid" style="margin-bottom:1rem;">
+  <div class="stat-card">
+    <div class="stat-value orange">4.8</div>
+    <div class="stat-label">UAE production capacity (mb/d) — free to pursue from May 1</div>
+    <div class="stat-source">✓ CNBC / Al Jazeera</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-value red">1.5–1.8</div>
+    <div class="stat-label">Fujairah pipeline max export (mb/d) — hard physical ceiling while Hormuz closed</div>
+    <div class="stat-source">✓ Wikipedia / CNBC</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-value yellow">2–3</div>
+    <div class="stat-label">mb/d of UAE crude that physically cannot be exported — accumulating in Fujairah tank farms</div>
+    <div class="stat-source">~ estimated</div>
+  </div>
+</div>
+
+<div class="card">
+  <h3>Why the Crude Pile-Up at Fujairah Is Actually a Good Sign</h3>
+  <p style="margin-bottom:1rem; line-height:1.7;">
+    UAE has <strong>4.8 mb/d of production capacity</strong> but its only export route while Hormuz is shut is the
+    Habshan&ndash;Fujairah pipeline — physically capped at <strong>1.5&ndash;1.8 mb/d</strong>.
+    The gap (~2&ndash;3 mb/d) is going nowhere but <strong>Fujairah's tank farms</strong>, one of the world's largest
+    oil storage hubs with &gt;10 million barrels of capacity.
+  </p>
+
+  <table>
+    <thead>
+      <tr><th>Scenario</th><th>UAE production</th><th>Fujairah exports</th><th>Going into Fujairah storage</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Pre-crisis (OPEC quota)</td>
+        <td>~3.2 mb/d</td>
+        <td>~1.1 mb/d (Fujairah) + ~2.1 mb/d (Hormuz)</td>
+        <td>~0 (Hormuz was the main artery)</td>
+      </tr>
+      <tr>
+        <td>Now (Hormuz shut, OPEC quota)</td>
+        <td>~3.2 mb/d</td>
+        <td>~1.5 mb/d</td>
+        <td class="orange-text">~1.7 mb/d/day accumulating</td>
+      </tr>
+      <tr>
+        <td>Post-exit (full capacity)</td>
+        <td>~4.8 mb/d</td>
+        <td>~1.5–1.8 mb/d (pipe limit)</td>
+        <td class="orange-text">~3.0–3.3 mb/d/day accumulating</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="callout success" style="margin-top:1rem;">
+    <strong>The silver lining:</strong> Every day Hormuz stays shut, UAE crude stockpiles at Fujairah.
+    When Hormuz reopens — whether in weeks or months — that pre-positioned oil hits global markets
+    <em>immediately</em>. No waiting for tankers to load from fields, no pipeline lag.
+    It's sitting at the dock, ready to ship. This is why oil price spikes tend to <strong>crash fast</strong> when a
+    chokepoint reopens: the pent-up supply flood is already staged.
+  </div>
+
+  <div class="callout warning" style="margin-top:0.75rem;">
+    <strong>For Australia specifically:</strong> Some of this Fujairah-stored UAE crude is already being sold to Asian
+    refineries loading directly from Fujairah tanks. AU could be receiving UAE-origin crude-derived refined product
+    sooner than traditional transit times suggest — but at elevated spot prices reflecting the storage premium.
+    This is estimated; no public cargo-level data confirms the exact AU share.
+  </div>
+
+  <p class="chart-source-note" style="margin-top:0.75rem;">
+    UAE production capacity: <a href="https://www.cnbc.com/2026/04/28/uae-opec-oil-iran.html" target="_blank">CNBC</a>.
+    Fujairah pipeline physical limit: <a href="https://en.wikipedia.org/wiki/Habshan%E2%80%93Fujairah_oil_pipeline" target="_blank">Wikipedia</a> /
+    <a href="https://www.cnbc.com/2026/03/12/strait-of-hormuz-oil-pipelines-iran-war-saudi-arabia-uae.html" target="_blank">CNBC pipeline explainer</a>.
+    Fujairah as a major storage hub: industry knowledge. Storage accumulation volumes are <strong>estimated</strong>.
+  </p>
+</div>
+
+<!-- ============================================ -->
+<!-- SOURCES TABLE -->
+<!-- ============================================ -->
+<div style="margin-top: 3rem; padding-top: 1rem; border-top: 1px solid var(--border);">
+  <h2 style="padding-top:0; border-top:none; font-size:1.1rem; color:var(--muted);">All Sources Referenced</h2>
+  <table style="margin:0.5rem 0;">
+    <thead><tr><th>Source</th><th>Data Points</th><th>Date</th><th>Status</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><a href="https://www.lastdrop.au/" target="_blank" style="color:var(--accent)">lastdrop.au</a></td>
+        <td>Reserve days of cover, ML in storage, daily consumption derived</td>
+        <td>21 Apr 2026 (live)</td>
+        <td><span class="badge badge-verified">&#10003;</span></td>
+      </tr>
+      <tr>
+        <td><a href="https://www.sbs.com.au/news/article/australia-fuel-shortage-2026/zl0grg7ey" target="_blank" style="color:var(--accent)">SBS News</a></td>
+        <td>762 ML reserve; 100 ML/month; consumption rates; 90% refined imports; excise; quality relaxation</td>
+        <td>2026</td>
+        <td><span class="badge badge-verified">&#10003;</span></td>
+      </tr>
+      <tr>
+        <td><a href="https://www.accc.gov.au/about-us/publications/weekly-fuel-price-monitoring-update" target="_blank" style="color:var(--accent)">ACCC Weekly Fuel Reports</a></td>
+        <td>Petrol &amp; diesel retail prices, 5-city averages, excise pass-through</td>
+        <td>Weekly, Jan&ndash;Apr 2026</td>
+        <td><span class="badge badge-verified">&#10003;</span></td>
+      </tr>
+      <tr>
+        <td><a href="http://www.aip.com.au/pricing" target="_blank" style="color:var(--accent)">Australian Institute of Petroleum</a></td>
+        <td>Weekly petrol &amp; diesel price reports</td>
+        <td>Weekly, Jan&ndash;Apr 2026</td>
+        <td><span class="badge badge-verified">&#10003;</span></td>
+      </tr>
+      <tr>
+        <td><a href="https://www.mynrma.com.au/cars-and-driving/fuel-finder/weekly-report" target="_blank" style="color:var(--accent)">NRMA</a></td>
+        <td>Sydney fuel prices, supply chain context</td>
+        <td>Weekly, 2026</td>
+        <td><span class="badge badge-verified">&#10003;</span></td>
+      </tr>
+      <tr>
+        <td><a href="https://www.aljazeera.com/news/2026/4/14/global-oil-demand-to-plunge-amid-middle-east-war-disruptions" target="_blank" style="color:var(--accent)">Al Jazeera / IEA</a></td>
+        <td>10.1 mb/d disruption; demand -80k bpd; Q2 -1.5M bpd; bypass pipelines</td>
+        <td>14 Apr 2026</td>
+        <td><span class="badge badge-verified">&#10003;</span></td>
+      </tr>
+      <tr>
+        <td><a href="https://www.cnbc.com/2026/03/11/iea-oil-reserves-crude-prices-iran-g7-energy.html" target="_blank" style="color:var(--accent)">CNBC</a></td>
+        <td>IEA 400M barrel global reserve release</td>
+        <td>11 Mar 2026</td>
+        <td><span class="badge badge-verified">&#10003;</span></td>
+      </tr>
+      <tr>
+        <td><a href="https://www.pm.gov.au/media/fuel-excise-halved-three-months" target="_blank" style="color:var(--accent)">PM.gov.au</a></td>
+        <td>Fuel excise halved (52.6 &rarr; 26.3 c/L)</td>
+        <td>30 Mar 2026</td>
+        <td><span class="badge badge-verified">&#10003;</span></td>
+      </tr>
+      <tr>
+        <td><a href="https://windward.ai/blog/april-28-maritime-intelligence-daily/" target="_blank" style="color:var(--accent)">Windward Maritime</a></td>
+        <td>Hormuz vessel transits, Iranian crude flows</td>
+        <td>28 Apr 2026</td>
+        <td><span class="badge badge-verified">&#10003;</span></td>
+      </tr>
+      <tr>
+        <td><a href="https://www.canberratimes.com.au/story/9219817/fuel-ships-inbound-but-supply-uncertainty-lingers/" target="_blank" style="color:var(--accent)">Canberra Times / AAP</a></td>
+        <td>57 fuel ships en route, govt underwriting</td>
+        <td>Apr 2026</td>
+        <td><span class="badge badge-verified">&#10003;</span></td>
+      </tr>
+      <tr>
+        <td><a href="https://fortune.com/2026/03/28/saudi-arabia-east-west-oil-pipeline-strait-hormuz-bypass-7-million-barrels-yanbu-red-sea/" target="_blank" style="color:var(--accent)">Fortune</a></td>
+        <td>Saudi East-West pipeline hit 7 mb/d capacity</td>
+        <td>28 Mar 2026</td>
+        <td><span class="badge badge-verified">&#10003;</span></td>
+      </tr>
+      <tr>
+        <td><a href="https://www.iata.org/en/publications/economics/fuel-monitor/" target="_blank" style="color:var(--accent)">IATA Fuel Monitor</a></td>
+        <td>Global jet fuel benchmark prices</td>
+        <td>Apr 2026</td>
+        <td><span class="badge badge-estimated">~ benchmark</span></td>
+      </tr>
+      <tr>
+        <td><a href="https://en.wikipedia.org/wiki/2026_Strait_of_Hormuz_crisis" target="_blank" style="color:var(--accent)">Wikipedia</a></td>
+        <td>Crisis timeline, bypass pipeline context</td>
+        <td>Live</td>
+        <td><span class="badge badge-estimated">~ reference</span></td>
+      </tr>
+      <tr>
+        <td><a href="https://fuelaustralia.org/reserves" target="_blank" style="color:var(--accent)">Fuel Australia</a></td>
+        <td>Industry-reported reserves (differs from lastdrop.au); Singapore refinery utilization ~55%</td>
+        <td>2026</td>
+        <td><span class="badge badge-estimated">~ alternative source</span></td>
+      </tr>
+      <tr>
+        <td><a href="https://www.firstlinks.com.au/the-refinery-problem-a-different-kind-of-energy-crisis-in-2026" target="_blank" style="color:var(--accent)">firstlinks.com.au</a></td>
+        <td>Singapore Refining Co at 60%, ExxonMobil Jurong ≤50%; AU import shares: Korea 32%, Sing 23%, Malaysia 23%; total Asian refinery run cut 4-5 mb/d</td>
+        <td>2026</td>
+        <td><span class="badge badge-verified">&#10003;</span></td>
+      </tr>
+      <tr>
+        <td><a href="https://www.argusmedia.com/en/news-and-insights/latest-market-news/2801979-south-korea-caps-fuel-exports-to-safeguard-supply" target="_blank" style="color:var(--accent)">Argus Media</a></td>
+        <td>South Korea caps fuel exports at 2025 monthly levels; reserves fell to 26 days</td>
+        <td>Mar 2026</td>
+        <td><span class="badge badge-verified">&#10003;</span></td>
+      </tr>
+      <tr>
+        <td><a href="https://thenightly.com.au/australia/jet-fuel-crisis-threatens-australias-skies-by-june-c-22181201" target="_blank" style="color:var(--accent)">The Nightly</a></td>
+        <td>China banned all fuel exports Mar 12; AU jet fuel imports from China were 36 kb/d = 28% of total jet fuel</td>
+        <td>2026</td>
+        <td><span class="badge badge-verified">&#10003;</span></td>
+      </tr>
+      <tr>
+        <td><a href="https://crudeoilpeak.info/china-fuel-exports-suspension-australia-will-have-to-replace-28-of-its-jet-fuel-imports-from-other-countries" target="_blank" style="color:var(--accent)">crudeoilpeak.info</a></td>
+        <td>China export ban: AU must replace 28% of jet fuel imports from other countries</td>
+        <td>2026</td>
+        <td><span class="badge badge-verified">&#10003;</span></td>
+      </tr>
+      <tr>
+        <td><a href="https://www.aljazeera.com/news/2026/4/28/uae-leaves-opec-and-opec" target="_blank" style="color:var(--accent)">Al Jazeera</a> / <a href="https://www.cnbc.com/2026/04/28/uae-opec-oil-iran.html" target="_blank" style="color:var(--accent)">CNBC</a> / <a href="https://www.axios.com/2026/04/28/uae-leaves-opec" target="_blank" style="color:var(--accent)">Axios</a></td>
+        <td>UAE exits OPEC and OPEC+ effective May 1, 2026; UAE production capacity 4.8 mb/d; third-largest OPEC producer</td>
+        <td>28 Apr 2026</td>
+        <td><span class="badge badge-verified">&#10003;</span></td>
+      </tr>
+      <tr>
+        <td><a href="https://en.wikipedia.org/wiki/Habshan%E2%80%93Fujairah_oil_pipeline" target="_blank" style="color:var(--accent)">Wikipedia — Habshan-Fujairah Pipeline</a></td>
+        <td>Physical pipeline capacity 1.5 mb/d (nameplate) to 1.8 mb/d (optimised); 48-inch diameter; ~370km; pre-crisis UAE flow ~1.1 mb/d</td>
+        <td>Reference</td>
+        <td><span class="badge badge-verified">&#10003;</span></td>
+      </tr>
+      <tr>
+        <td><a href="https://www.statista.com/statistics/674596/australia-petroleum-import-volume-by-country-of-origin/" target="_blank" style="color:var(--accent)">Statista / energy.gov.au</a></td>
+        <td>Australia petroleum import volumes by country of origin 2024</td>
+        <td>2024</td>
+        <td><span class="badge badge-verified">&#10003;</span></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ============================================ -->
+<!-- PLOTLY CHARTS -->
+<!-- ============================================ -->
+<script>
+const colors = {
+  bg: '#0f1117', surface: '#1a1d27', border: '#2e3348', text: '#e2e4eb',
+  muted: '#8b8fa3', accent: '#4e9af5', green: '#34d399', red: '#f87171',
+  orange: '#fb923c', yellow: '#fbbf24', purple: '#a78bfa', teal: '#2dd4bf',
+};
+
+const layoutBase = {
+  paper_bgcolor: colors.surface, plot_bgcolor: colors.surface,
+  font: { color: colors.text, family: 'Inter, sans-serif', size: 13 },
+  margin: { l: 60, r: 30, t: 40, b: 60 },
+  xaxis: { gridcolor: colors.border, zerolinecolor: colors.border },
+  yaxis: { gridcolor: colors.border, zerolinecolor: colors.border },
+};
+
+// =========================================
+// UNIT TOGGLE LOGIC
+// =========================================
+const ML_TO_BBL = 6289.3; // 1 ML = 6,289.3 barrels
+let currentUnit = 'ml';
+
+function setUnit(unit) {
+  currentUnit = unit;
+  document.body.className = 'unit-' + unit;
+  // Restyle burn chart
+  if (unit === 'bbl') {
+    Plotly.restyle('burnChart', {
+      y: [[277000, 579000, 176000], [295000, 590000, 145000]],
+      text: [['277k bbl/d\n✓ SBS', '579k bbl/d\n✓ SBS', '176k bbl/d\n~ derived'],
+             ['~295k bbl/d\n~ est.', '~590k bbl/d\n~ est.', '~145k bbl/d\n~ est.']],
+    }, [0, 1]);
+    Plotly.relayout('burnChart', { 'yaxis.title': 'Barrels per day' });
+  } else {
+    Plotly.restyle('burnChart', {
+      y: [[44, 92, 28], [47, 94, 23]],
+      text: [['44 ML/d\n✓ SBS', '92 ML/d\n✓ SBS', '~28 ML/d\n~ derived'],
+             ['~47 ML/d\n~ est.', '~94 ML/d\n~ est.', '~23 ML/d\n~ est.']],
+    }, [0, 1]);
+    Plotly.relayout('burnChart', { 'yaxis.title': 'Megalitres per day' });
+  }
+}
+
+// =========================================
+// CHART 1: DOMESTIC FUEL PRICES
+// =========================================
+Plotly.newPlot('priceChart', [
+  {
+    x: ['2026-01-04', '2026-02-15', '2026-02-20', '2026-03-01', '2026-03-11', '2026-03-15', '2026-03-30', '2026-04-01', '2026-04-09', '2026-04-14', '2026-04-20', '2026-04-27'],
+    y: [174.7, 159.5, 166.0, 183.8, 219.7, 219.5, 257.8, 235, 224.4, 203, 189, 183.2],
+    name: 'Petrol (ULP 91) ✓ ACCC/AIP',
+    type: 'scatter', mode: 'lines+markers',
+    line: { color: colors.green, width: 2.5 },
+    marker: { size: 6 },
+  },
+  {
+    x: ['2026-01-15', '2026-02-20', '2026-03-01', '2026-03-11', '2026-03-22', '2026-03-31', '2026-04-01', '2026-04-14', '2026-04-20', '2026-04-27'],
+    y: [175, 180.3, 195, 245.6, 245.6, 322.4, 307, 276, 259, 253.6],
+    name: 'Diesel ✓ ACCC/AIP',
+    type: 'scatter', mode: 'lines+markers',
+    line: { color: colors.orange, width: 2.5 },
+    marker: { size: 6 },
+  },
+  {
+    x: ['2026-01-15', '2026-02-15', '2026-03-15', '2026-03-18', '2026-03-27', '2026-04-15', '2026-04-27'],
+    y: [80, 85, 137, 150, 139, 130, 118],
+    name: 'Jet Fuel (SG Platts benchmark, approx.) ~ IATA',
+    type: 'scatter', mode: 'lines+markers',
+    line: { color: colors.purple, width: 2, dash: 'dot' },
+    marker: { size: 5 },
+  }
+], {
+  ...layoutBase,
+  title: { text: 'Australian Domestic Fuel Prices — Jan to Apr 2026 (cents per litre)', font: { size: 14, color: colors.text } },
+  xaxis: { ...layoutBase.xaxis, title: '', type: 'date' },
+  yaxis: { ...layoutBase.yaxis, title: 'Cents per litre (c/L)', range: [50, 350] },
+  legend: { orientation: 'h', y: -0.15, x: 0.5, xanchor: 'center', font: { size: 11 } },
+  shapes: [
+    // Crisis start line
+    { type: 'line', x0: '2026-02-28', x1: '2026-02-28', y0: 50, y1: 350, line: { color: colors.red, width: 2, dash: 'dash' } },
+    // Excise cut line
+    { type: 'line', x0: '2026-04-01', x1: '2026-04-01', y0: 50, y1: 350, line: { color: colors.teal, width: 2, dash: 'dash' } },
+  ],
+  annotations: [
+    { x: '2026-02-28', y: 340, text: '28 Feb: Hormuz<br>crisis begins', showarrow: false, font: { size: 10, color: colors.red }, xanchor: 'left', xshift: 5 },
+    { x: '2026-04-01', y: 340, text: '1 Apr: Excise<br>halved (-26.3c/L)', showarrow: false, font: { size: 10, color: colors.teal }, xanchor: 'left', xshift: 5 },
+    { x: '2026-03-31', y: 322.4, text: 'Diesel peak: 322 c/L\n(+79% from pre-crisis)', showarrow: true, arrowhead: 2, ax: -80, ay: -25, font: { size: 10, color: colors.orange }, arrowcolor: colors.orange },
+    { x: '2026-03-30', y: 257.8, text: 'Petrol peak: 258 c/L\n(+55% from pre-crisis)', showarrow: true, arrowhead: 2, ax: -80, ay: 30, font: { size: 10, color: colors.green }, arrowcolor: colors.green },
+  ],
+}, { responsive: true });
+
+// =========================================
+// CHART 2: DAILY BURN vs SUPPLY
+// =========================================
+Plotly.newPlot('burnChart', [
+  {
+    x: ['Petrol', 'Diesel', 'Jet Fuel'],
+    y: [44, 92, 28],
+    name: 'Daily Consumption — VERIFIED via SBS',
+    type: 'bar',
+    marker: { color: colors.red, opacity: 0.85 },
+    text: ['44 ML/d\n✓ SBS', '92 ML/d\n✓ SBS', '~28 ML/d\n~ derived'],
+    textposition: 'outside',
+    textfont: { color: colors.text, size: 11 },
+  },
+  {
+    x: ['Petrol', 'Diesel', 'Jet Fuel'],
+    y: [47, 94, 23],
+    name: 'Avg Daily Arrivals — ESTIMATED (still at ~pre-crisis levels)',
+    type: 'bar',
+    marker: { color: colors.green, opacity: 0.7 },
+    text: ['~47 ML/d\n~ est.', '~94 ML/d\n~ est.', '~23 ML/d\n~ est.'],
+    textposition: 'outside',
+    textfont: { color: colors.text, size: 11 },
+  }
+], {
+  ...layoutBase,
+  barmode: 'group',
+  title: { text: 'Daily Consumption vs Incoming Supply (still flowing from pre-crisis pipeline)', font: { size: 14, color: colors.text } },
+  yaxis: { ...layoutBase.yaxis, title: 'Megalitres per day' },
+  legend: { orientation: 'h', y: -0.2, x: 0.5, xanchor: 'center', font: { size: 11 } },
+  annotations: [{
+    x: 0.5, y: 1.08, xref: 'paper', yref: 'paper',
+    text: '⚠ Incoming supply is roughly matching consumption NOW because pre-crisis contracted fuel is still arriving. This will decline.',
+    showarrow: false, font: { size: 10, color: colors.yellow },
+  }],
+}, { responsive: true });
+
+// =========================================
+// CHART 3: WORLD MAP
+// =========================================
+Plotly.newPlot('mapChart', [
+  // Normal crude route (DISRUPTED) - Hormuz to Singapore
+  {
+    type: 'scattergeo', mode: 'lines',
+    lat: [26.5, 15, 5, 1.3],
+    lon: [56.5, 68, 85, 103.8],
+    line: { color: colors.red, width: 3, dash: 'dash' },
+    name: '❌ Crude via Hormuz (BLOCKED)',
+    hoverinfo: 'name',
+  },
+  // Normal crude route - Hormuz to Korea
+  {
+    type: 'scattergeo', mode: 'lines',
+    lat: [26.5, 15, 5, 1.3, 15, 35.5],
+    lon: [56.5, 68, 85, 103.8, 118, 129.3],
+    line: { color: colors.red, width: 3, dash: 'dash' },
+    name: '❌ Crude via Hormuz (BLOCKED)',
+    showlegend: false, hoverinfo: 'name',
+  },
+  // ── LAND PIPELINES (thin teal lines) ──────────────────────────────
+  // Saudi East-West Pipeline: Abqaiq → Yanbu (across Saudi Arabia)
+  {
+    type: 'scattergeo', mode: 'lines',
+    lat: [25.9, 24.8, 24.1],
+    lon: [49.7, 44.0, 38.1],
+    line: { color: colors.teal, width: 2.5 },
+    name: '🛢 Saudi East-West Pipeline (7 mb/d max | ~4 mb/d effective)',
+    hoverinfo: 'name',
+  },
+  // UAE Habshan → Fujairah pipeline
+  {
+    type: 'scattergeo', mode: 'lines',
+    lat: [23.5, 24.3, 25.1],
+    lon: [53.6, 55.0, 56.3],
+    line: { color: colors.teal, width: 2 },
+    name: '🛢 UAE Habshan–Fujairah Pipeline (1.5 mb/d)',
+    hoverinfo: 'name',
+  },
+  // Iraq Kirkuk → Ceyhan pipeline (through Turkey)
+  {
+    type: 'scattergeo', mode: 'lines',
+    lat: [35.5, 36.2, 36.5, 36.8],
+    lon: [44.4, 42.0, 38.5, 35.8],
+    line: { color: colors.teal, width: 2 },
+    name: '🛢 Iraq Kirkuk–Ceyhan Pipeline (1.6 mb/d)',
+    hoverinfo: 'name',
+  },
+  // ── SEA BYPASS SHIPPING ROUTES ─────────────────────────────────────
+  // Bypass crude route - Yanbu to Singapore via Red Sea + Indian Ocean
+  {
+    type: 'scattergeo', mode: 'lines',
+    lat: [24.1, 12.5, 5, 0, 1.3],
+    lon: [38.1, 43.5, 55, 80, 103.8],
+    line: { color: colors.yellow, width: 2.5 },
+    name: '⚠ Sea bypass → Singapore (~7.1 mb/d effective, port-limited)',
+    hoverinfo: 'name',
+  },
+  // Bypass to Korea
+  {
+    type: 'scattergeo', mode: 'lines',
+    lat: [1.3, 15, 35.5],
+    lon: [103.8, 118, 129.3],
+    line: { color: colors.yellow, width: 2.5 },
+    name: '⚠ Sea bypass',
+    showlegend: false, hoverinfo: 'name',
+  },
+  // Ceyhan → Mediterranean → global
+  {
+    type: 'scattergeo', mode: 'lines',
+    lat: [36.8, 36.5, 30.0],
+    lon: [35.8, 32.0, 26.0],
+    line: { color: colors.yellow, width: 1.5 },
+    name: '⚠ Iraq Ceyhan → Mediterranean',
+    hoverinfo: 'name',
+  },
+  // Fujairah → Indian Ocean bypass
+  {
+    type: 'scattergeo', mode: 'lines',
+    lat: [25.1, 20.0, 10.0, 1.3],
+    lon: [56.3, 60.0, 70.0, 103.8],
+    line: { color: colors.yellow, width: 1.5 },
+    name: '⚠ UAE Fujairah → Indian Ocean',
+    hoverinfo: 'name',
+  },
+  // ── REFINED PRODUCT SHIPPING ────────────────────────────────────────
+  // Refined product - Singapore to Australia
+  {
+    type: 'scattergeo', mode: 'lines',
+    lat: [1.3, -15, -33.9],
+    lon: [103.8, 125, 151.2],
+    line: { color: colors.green, width: 3 },
+    name: '✓ Refined product → Australia (7-12 days)',
+    hoverinfo: 'name',
+  },
+  // Refined product - Korea to Australia
+  {
+    type: 'scattergeo', mode: 'lines',
+    lat: [35.5, 10, -20, -33.9],
+    lon: [129.3, 140, 148, 151.2],
+    line: { color: colors.green, width: 3 },
+    name: '✓ Refined product → Australia',
+    showlegend: false, hoverinfo: 'name',
+  },
+  // ── LOCATION MARKERS ───────────────────────────────────────────────
+  {
+    type: 'scattergeo', mode: 'markers+text',
+    lat: [26.5, 25.9, 24.1,  25.1,  36.8, 23.5,  1.3,   35.5,  1.5,   -33.9],
+    lon: [56.5, 49.7, 38.1,  56.3,  35.8, 53.6,  103.8, 129.3, 104.0, 151.2],
+    text: [
+      '⛔ Hormuz<br>(BLOCKED)',
+      '⛽ Abqaiq<br>(field hub)',
+      '🔀 Yanbu<br><b>Pre: 1.3 mb/d</b><br><b>Now: ~4 mb/d</b><br>(port ceiling)',
+      '🔀 Fujairah<br>(UAE bypass)<br>1.5 mb/d',
+      '🔀 Ceyhan<br>(Iraq/Turkey)<br>1.6 mb/d',
+      '⛽ Habshan<br>(UAE)',
+      '🏭 Singapore<br>Refinery<br>(~55% util.)',
+      '🏭 S. Korea<br>Refinery<br>(capped)',
+      '🏭 Malaysia<br>Refinery',
+      '🇦🇺 Australia',
+    ],
+    textposition: ['top right', 'top right', 'bottom left', 'top right', 'top left', 'bottom right', 'bottom center', 'top center', 'top right', 'bottom center'],
+    marker: {
+      size:  [16, 8,  14,     11,     11,     8,     12,    12,    10,    16],
+      color: [colors.red, colors.teal, colors.yellow, colors.yellow, colors.yellow, colors.teal, colors.green, colors.green, colors.green, colors.accent],
+      line:  { width: 2, color: colors.text },
+      symbol: ['circle', 'square', 'circle', 'circle', 'circle', 'square', 'circle', 'circle', 'circle', 'circle'],
+    },
+    textfont: { size: 9, color: colors.text },
+    name: 'Locations',
+    showlegend: false, hoverinfo: 'text',
+  }
+], {
+  paper_bgcolor: colors.surface,
+  font: { color: colors.text, family: 'Inter, sans-serif', size: 12 },
+  title: { text: 'Supply Routes: Pipelines (teal) + Sea Routes (yellow/green) — Middle East → Australia', font: { size: 13, color: colors.text } },
+  margin: { l: 10, r: 10, t: 50, b: 10 },
+  geo: {
+    scope: 'world',
+    projection: { type: 'natural earth' },
+    showland: true,
+    landcolor: '#1e2130',
+    showocean: true,
+    oceancolor: '#0d1017',
+    showcountries: true,
+    countrycolor: colors.border,
+    showcoastlines: true,
+    coastlinecolor: colors.border,
+    bgcolor: colors.surface,
+    lonaxis: { range: [25, 165] },
+    lataxis: { range: [-45, 45] },
+    showframe: false,
+  },
+  legend: { orientation: 'h', y: -0.08, x: 0.5, xanchor: 'center', font: { size: 9 }, bgcolor: 'rgba(0,0,0,0)' },
+  annotations: [
+    {
+      x: 0.04, y: 0.97, xref: 'paper', yref: 'paper',
+      text: '🛢 Teal lines = land pipelines<br>🟡 Yellow = sea bypass routes<br>🟢 Green = refined product to AU',
+      showarrow: false, font: { size: 9, color: colors.text },
+      align: 'left', bgcolor: 'rgba(26,29,39,0.85)', borderpad: 5,
+    },
+    {
+      x: 0.14, y: 0.72, xref: 'paper', yref: 'paper',
+      text: 'Saudi Petroline<br>7 mb/d (pipe)<br>4 mb/d (port limit)<br>✓ S&P Global / Argus',
+      showarrow: false, font: { size: 8, color: colors.teal }, align: 'left',
+    },
+    {
+      x: 0.35, y: 0.69, xref: 'paper', yref: 'paper',
+      text: '~20 days sailing<br>to Singapore',
+      showarrow: false, font: { size: 9, color: colors.muted },
+    },
+    {
+      x: 0.75, y: 0.25, xref: 'paper', yref: 'paper',
+      text: '7-12 days<br>to Australia',
+      showarrow: false, font: { size: 9, color: colors.muted },
+    },
+    {
+      x: 0.29, y: 0.83, xref: 'paper', yref: 'paper',
+      text: 'Pre-crisis: 1.3 mb/d<br>Now: ~4 mb/d<br>(port-limited from 7 mb/d pipe)<br>✓ S&P Global / houseofsaud.com',
+      showarrow: false, font: { size: 8, color: colors.yellow }, align: 'left',
+      bgcolor: 'rgba(26,29,39,0.85)', borderpad: 4,
+    },
+  ],
+}, { responsive: true });
+
+// =========================================
+// CHART 4: SUPPLY CHAIN TIMELINE (REWORKED)
+// =========================================
+// Using actual dates, dual y-axis: Hormuz flow + AU buffer
+const timelineDates = [
+  '2026-02-15', '2026-02-27', '2026-02-28', '2026-03-02', '2026-03-04',
+  '2026-03-11', '2026-03-22', '2026-03-28', '2026-03-30',
+  '2026-04-13', '2026-04-29',
+  '2026-05-15', '2026-06-15'
+];
+
+// Hormuz throughput (mb/d)
+const hormuzFlow = [20, 20, 12, 3, 1.5, 1.5, 1.5, 1.5, 1.5, 1.3, 1.0, 0.8, 0.5];
+
+// AU combined buffer days (approximate, estimated trajectory)
+const auBuffer = [35, 35, 35, 34, 33, 32, 30, 29, 30, 33, 32, 25, 15];
+
+Plotly.newPlot('timelineChart', [
+  // Hormuz flow line
+  {
+    x: timelineDates,
+    y: hormuzFlow,
+    name: 'Hormuz throughput (mb/d)',
+    type: 'scatter', mode: 'lines+markers',
+    line: { color: colors.accent, width: 3, shape: 'hv' },
+    marker: { size: 8, color: hormuzFlow.map(v => v > 10 ? colors.green : v > 2 ? colors.orange : colors.red) },
+    yaxis: 'y',
+    hovertemplate: '%{x}<br>Hormuz: %{y} mb/d<extra></extra>',
+  },
+  // AU buffer line
+  {
+    x: timelineDates,
+    y: auBuffer,
+    name: 'AU avg fuel buffer (days)',
+    type: 'scatter', mode: 'lines+markers',
+    line: { color: colors.green, width: 2.5, dash: 'dot' },
+    marker: { size: 6, color: auBuffer.map(v => v > 30 ? colors.green : v > 20 ? colors.yellow : colors.red) },
+    yaxis: 'y2',
+    hovertemplate: '%{x}<br>AU buffer: ~%{y} days<extra></extra>',
+  },
+], {
+  ...layoutBase,
+  title: { text: 'Crisis Timeline: Hormuz Flow (left axis) & Australia Buffer (right axis)', font: { size: 13, color: colors.text } },
+  xaxis: { ...layoutBase.xaxis, type: 'date', title: '' },
+  yaxis: {
+    ...layoutBase.yaxis,
+    title: 'Hormuz throughput (million barrels/day)',
+    range: [0, 25],
+    side: 'left',
+    titlefont: { color: colors.accent },
+  },
+  yaxis2: {
+    title: 'AU fuel buffer (days of cover)',
+    range: [0, 45],
+    overlaying: 'y',
+    side: 'right',
+    gridcolor: 'transparent',
+    zerolinecolor: colors.border,
+    titlefont: { color: colors.green },
+    font: { color: colors.green },
+  },
+  legend: { orientation: 'h', y: -0.15, x: 0.5, xanchor: 'center', font: { size: 11 } },
+  shapes: [
+    // Crisis start
+    { type: 'line', x0: '2026-02-28', x1: '2026-02-28', y0: 0, y1: 25, line: { color: colors.red, width: 2, dash: 'dash' } },
+    // "YOU ARE HERE"
+    { type: 'line', x0: '2026-04-29', x1: '2026-04-29', y0: 0, y1: 25, line: { color: colors.yellow, width: 2, dash: 'dash' } },
+    // Danger zone
+    { type: 'rect', xref: 'x', yref: 'y2', x0: '2026-05-15', x1: '2026-06-30', y0: 0, y1: 14, fillcolor: 'rgba(248,113,113,0.08)', line: { width: 0 } },
+  ],
+  annotations: [
+    {
+      x: '2026-02-28', y: 23, text: '28 Feb: US-Israeli strikes<br>Hormuz collapses 20→~2 mb/d<br>in 48 hours (not gradual)<br><span style="font-size:9px">✓ Wikipedia / Al Jazeera</span>',
+      showarrow: true, arrowhead: 2, ax: 60, ay: -30,
+      font: { size: 9, color: colors.red }, arrowcolor: colors.red, align: 'left',
+    },
+    {
+      x: '2026-03-11', y: 18, text: '11 Mar: IEA releases<br><b>400 million BARRELS</b><br>(largest ever; AU share ~4.8M bbl)<br><span style="font-size:9px">✓ CNBC</span>',
+      showarrow: true, arrowhead: 2, ax: 50, ay: -50,
+      font: { size: 9, color: colors.teal }, arrowcolor: colors.teal, align: 'left',
+    },
+    {
+      x: '2026-03-28', y: 15, text: '28 Mar: Saudi bypass pipeline<br>hits <b>7 mb/d</b> capacity<br>(+ UAE 1.5 + Iraq 1.6 = ~9 mb/d total)<br>Still short of 20 mb/d pre-crisis<br><span style="font-size:9px">✓ Fortune / Al Jazeera</span>',
+      showarrow: true, arrowhead: 2, ax: 70, ay: -40,
+      font: { size: 9, color: colors.orange }, arrowcolor: colors.orange, align: 'left',
+    },
+    {
+      x: '2026-03-22', y: 9, text: '22 Mar: AU confirms <b>57 ships</b><br>en route — carrying <b>refined product</b><br>(petrol/diesel/jet), NOT crude<br><span style="font-size:9px">✓ Canberra Times</span>',
+      showarrow: true, arrowhead: 2, ax: -70, ay: 40,
+      font: { size: 9, color: colors.green }, arrowcolor: colors.green, align: 'left',
+    },
+    {
+      x: '2026-04-29', y: 22, text: '👈 YOU ARE HERE<br>Hormuz: ~1 mb/d trickle<br>(Iranian crude only)<br>AU buffer: ~32 days avg<br><span style="font-size:9px">✓ Windward / lastdrop.au</span>',
+      showarrow: true, arrowhead: 2, ax: -80, ay: -20,
+      font: { size: 10, color: colors.yellow }, arrowcolor: colors.yellow, align: 'left',
+    },
+    {
+      x: '2026-05-15', y: 5, text: 'Mid-May: Asian refinery<br>pre-crisis crude stocks<br><b>exhausted</b> — must run on<br>bypass + IEA reserve crude only<br><span style="font-size:9px">~ estimated (Morningstar / IEA)</span>',
+      showarrow: true, arrowhead: 2, ax: -60, ay: 40,
+      font: { size: 9, color: colors.orange }, arrowcolor: colors.orange, align: 'left',
+    },
+    {
+      x: '2026-06-15', y: 3, text: '⚠ June: Post-crisis refined<br>product must arrive or<br>AU faces supply gaps<br>Diesel critical first<br><span style="font-size:9px">~ estimated scenario</span>',
+      showarrow: true, arrowhead: 2, ax: -70, ay: -30,
+      font: { size: 9, color: colors.red }, arrowcolor: colors.red, align: 'left',
+    },
+  ],
+}, { responsive: true });
+
+// =========================================
+// CHART 5: IMPORT SOURCES — PRE-CRISIS vs NOW
+// =========================================
+const importSuppliers = ['South Korea', 'Singapore', 'Malaysia', 'China', 'Other (spot)'];
+const precrisisShare = [32, 23, 23, 8, 14];
+// Current flow = pre-crisis × factor: Korea 85%, Sing 55%, Malaysia 75%, China 0%, Other 130%
+const currentFlow = [32*0.85, 23*0.55, 23*0.75, 0, 14*1.30];
+const statusColors = [colors.orange, colors.orange, colors.yellow, colors.red, colors.green];
+
+Plotly.newPlot('importSourceChart', [
+  {
+    x: importSuppliers,
+    y: precrisisShare,
+    name: 'Pre-crisis share (% of imports)',
+    type: 'bar',
+    marker: { color: colors.accent, opacity: 0.7 },
+    text: precrisisShare.map(v => v + '%'),
+    textposition: 'outside',
+    textfont: { color: colors.text, size: 11 },
+  },
+  {
+    x: importSuppliers,
+    y: currentFlow.map(v => Math.round(v * 10) / 10),
+    name: 'Current estimated flow (% of imports)',
+    type: 'bar',
+    marker: { color: statusColors, opacity: 0.85 },
+    text: currentFlow.map((v, i) => {
+      if (i === 3) return '0% BANNED';
+      return '~' + Math.round(v) + '%';
+    }),
+    textposition: 'outside',
+    textfont: { color: colors.text, size: 11 },
+  }
+], {
+  ...layoutBase,
+  barmode: 'group',
+  title: { text: 'Australia Import Sources — Pre-Crisis vs Current Estimated Flow (% of total imports)', font: { size: 13, color: colors.text } },
+  yaxis: { ...layoutBase.yaxis, title: '% of total refined fuel imports', range: [0, 42] },
+  legend: { orientation: 'h', y: -0.2, x: 0.5, xanchor: 'center', font: { size: 11 } },
+  annotations: [
+    { x: 3, y: 2, text: '❌ BANNED\n12 Mar 2026', showarrow: false, font: { size: 10, color: colors.red } },
+    { x: 1, y: 14, text: '55% utilisation\n(fuelaustralia.org)', showarrow: true, arrowhead: 2, ax: 40, ay: -30, font: { size: 9, color: colors.orange }, arrowcolor: colors.orange },
+    { x: 0, y: 29, text: 'Capped at\n2025 monthly levels', showarrow: true, arrowhead: 2, ax: -50, ay: -25, font: { size: 9, color: colors.orange }, arrowcolor: colors.orange },
+  ],
+}, { responsive: true });
+
+// =========================================
+// CHART 5b: AU IMPORT SHORTFALL WATERFALL
+// =========================================
+Plotly.newPlot('importShortfallChart', [{
+  x: [
+    'Pre-crisis\nimports\n(100%)',
+    'Korea cap\n(-15%)',
+    'Singapore\nrefinery cuts\n(-10%)',
+    'China ban\n(-8%)',
+    'Malaysia\nreduction\n(-6%)',
+    'Gross\nshortfall\n(~29%)',
+    '+ IEA reserve\ndrawdown\n(+7%)',
+    '+ AU strategic\nreserve\n(+5%)',
+    '+ Demand\ndestruction\n(+6%)',
+    '+ Alt. suppliers\n& spot\n(+7%)',
+    'Net gap\n(~4%)\n⚠ est.',
+  ],
+  y: [100, -15, -10, -8, -6, 0, 7, 5, 6, 7, 0],
+  type: 'waterfall', orientation: 'v',
+  connector: { line: { color: colors.border, width: 1 } },
+  decreasing: { marker: { color: colors.red } },
+  increasing: { marker: { color: colors.green } },
+  totals: { marker: { color: colors.yellow } },
+  measure: ['absolute', 'relative', 'relative', 'relative', 'relative', 'total', 'relative', 'relative', 'relative', 'relative', 'total'],
+  text: [
+    '100%\n✓ baseline',
+    '-15%\n✓ Argus',
+    '-10%\n✓ firstlinks',
+    '-8%\n✓ The Nightly',
+    '-6%\n~ est.',
+    '~71% flowing\n(~29% shortfall)',
+    '+7%\n✓ IEA/CNBC',
+    '+5%\n✓ SBS',
+    '+6%\n✓ IEA/Al Jaz',
+    '+7%\n✓ Canberra Times',
+    '~4% gap\n⚠ illustrative',
+  ],
+  textposition: 'outside',
+  textfont: { size: 9, color: colors.text },
+}], {
+  ...layoutBase,
+  title: { text: 'Australia Import Shortfall & How the Gap Gets Filled (% of pre-crisis import volume)', font: { size: 13, color: colors.text } },
+  yaxis: { ...layoutBase.yaxis, title: '% of pre-crisis import volume', range: [-5, 115] },
+  showlegend: false,
+  margin: { ...layoutBase.margin, t: 60, b: 100 },
+  annotations: [
+    {
+      x: 4.5, y: 110, xref: 'x', yref: 'y',
+      text: '← Shortfall drivers →',
+      showarrow: false, font: { size: 11, color: colors.red },
+    },
+    {
+      x: 7.5, y: 110, xref: 'x', yref: 'y',
+      text: '← Gap fill mechanisms →',
+      showarrow: false, font: { size: 11, color: colors.green },
+    },
+  ],
+}, { responsive: true });
+
+// =========================================
+// CHART 6: DEMAND REVISION
+// =========================================
+Plotly.newPlot('demandRevisionChart', [
+  {
+    x: ['Pre-crisis Forecast\n(Feb 2026)', 'April 2026 Revised\nForecast'],
+    y: [640, -80],
+    type: 'bar',
+    marker: { color: [colors.green, colors.red] },
+    text: ['+640-730k bbl/d growth\nexpected', '-80k bbl/d\ncontraction'],
+    textposition: 'outside',
+    textfont: { color: colors.text, size: 12 },
+    width: [0.5, 0.5],
+  }
+], {
+  ...layoutBase,
+  title: { text: 'IEA 2026 Global Oil Demand Forecast (✓ Al Jazeera / IEA Apr 2026)', font: { size: 13, color: colors.text } },
+  yaxis: { ...layoutBase.yaxis, title: 'Thousand barrels/day change', zeroline: true, zerolinewidth: 2, zerolinecolor: colors.muted, range: [-200, 900] },
+  showlegend: false,
+  annotations: [
+    { x: 0.5, y: 800, xref: 'paper', yref: 'y', text: '~720-810k bbl/day swing ✓ IEA', showarrow: false, font: { size: 12, color: colors.yellow } },
+    { x: 1.05, y: -80, xref: 'paper', yref: 'y', text: 'Q2 alone: -1.5M bpd\n"deepest since COVID"\n✓ Al Jazeera', showarrow: false, font: { size: 10, color: colors.orange }, align: 'left' },
+  ],
+}, { responsive: true });
+
+// =========================================
+// CHART 7: WATERFALL
+// =========================================
+Plotly.newPlot('waterfallChart', [{
+  x: ['Hormuz\nDisruption\n✓ Al Jaz', 'IEA Reserve\nRelease\n✓ CNBC', 'Bypass\nPipelines\n✓ Fortune', 'Demand\nDestruction\n✓ IEA/Al Jaz', 'Pre-Crisis\nShips\n~ est.', 'AU Govt\nReserve\n✓ SBS', 'NET GAP\n~ est.'],
+  y: [10100, -2400, -3500, -1500, -1800, -500, 400],
+  type: 'waterfall', orientation: 'v',
+  connector: { line: { color: colors.border, width: 1 } },
+  decreasing: { marker: { color: colors.green } },
+  increasing: { marker: { color: colors.red } },
+  totals: { marker: { color: colors.yellow } },
+  measure: ['absolute', 'relative', 'relative', 'relative', 'relative', 'relative', 'total'],
+  text: ['10.1M bbl/d\n✓ Al Jaz', '-2.4M bpd\n✓ IEA 400Mbbl', '-3.5M bpd\n✓ 3 pipelines', '-1.5M bpd\n✓ Q2 demand', '-1.8M bpd\n~ in transit', '-0.5M bpd\n✓ 762ML', '~0.4M bpd\nremaining'],
+  textposition: 'outside', textfont: { size: 9, color: colors.text },
+}], {
+  ...layoutBase,
+  title: { text: 'How 10.1M bbl/d Supply Loss Gets Absorbed (anchors verified; splits illustrative)', font: { size: 13, color: colors.text } },
+  yaxis: { ...layoutBase.yaxis, title: 'Thousand barrels/day' },
+  showlegend: false, margin: { ...layoutBase.margin, t: 60, b: 80 },
+}, { responsive: true });
+
+// =========================================
+// CHART 8: CARGO SANKEY (ILLUSTRATIVE)
+// =========================================
+Plotly.newPlot('cargoChart', [{
+  type: 'sankey', orientation: 'h',
+  node: {
+    pad: 20, thickness: 20,
+    line: { color: colors.border, width: 1 },
+    label: [
+      'Available Global Supply', 'Rich Countries (OECD)', 'Poor Countries (non-OECD)',
+      'Australia', 'Japan / Korea', 'EU / US',
+      'Vietnam / Philippines', 'Bangladesh / Pakistan', 'Africa / LatAm',
+      "Demand Destroyed\n(can't afford it)",
+    ],
+    color: [colors.accent, colors.green, colors.red, colors.green, colors.green, colors.green, colors.red, colors.red, colors.orange, '#333'],
+  },
+  link: {
+    source: [0, 0, 1, 1, 1, 2, 2, 2, 6, 7, 8],
+    target: [1, 2, 3, 4, 5, 6, 7, 8, 9, 9, 9],
+    value:  [42, 15, 1, 6, 35, 3, 2, 10, 1.5, 1.2, 1.3],
+    color: [
+      'rgba(78,154,245,0.2)', 'rgba(248,113,113,0.2)',
+      'rgba(52,211,153,0.3)', 'rgba(52,211,153,0.2)', 'rgba(52,211,153,0.2)',
+      'rgba(248,113,113,0.2)', 'rgba(248,113,113,0.2)', 'rgba(248,113,113,0.2)',
+      'rgba(248,113,113,0.15)', 'rgba(248,113,113,0.15)', 'rgba(248,113,113,0.15)',
+    ],
+  },
+}], {
+  ...layoutBase,
+  title: { text: '⚠ ILLUSTRATIVE: How rich countries outbid poor ones for freed-up supply\n(Not precise cargo volumes — no public source tracks this)', font: { size: 12, color: colors.orange } },
+  margin: { l: 10, r: 10, t: 60, b: 20 },
+}, { responsive: true });
+
+// =========================================
+// CHART 9: RUNWAY
+// =========================================
+const days = Array.from({length: 90}, (_, i) => i + 1);
+const petrolRunway = days.map(d => {
+  if (d <= 45) return 38.2 - (d * 0.1);
+  if (d <= 65) return 33.7 - ((d - 45) * 0.4);
+  return 25.7 - ((d - 65) * 0.8);
+});
+const dieselRunway = days.map(d => {
+  if (d <= 40) return 30.5 - (d * 0.12);
+  if (d <= 60) return 25.7 - ((d - 40) * 0.5);
+  return 15.7 - ((d - 60) * 0.7);
+});
+const jetRunway = days.map(d => {
+  if (d <= 35) return 27.5 - (d * 0.15);
+  if (d <= 55) return 22.25 - ((d - 35) * 0.55);
+  return 11.25 - ((d - 55) * 0.6);
+});
+
+const dateLabels = days.map(d => {
+  const date = new Date(2026, 3, 29);
+  date.setDate(date.getDate() + d);
+  return date.toLocaleDateString('en-AU', { day: 'numeric', month: 'short' });
+});
+
+Plotly.newPlot('runwayChart', [
+  { x: dateLabels, y: petrolRunway, name: 'Petrol (starts 38.2d ✓ lastdrop)', line: { color: colors.green, width: 2.5 }, mode: 'lines' },
+  { x: dateLabels, y: dieselRunway, name: 'Diesel (starts 30.5d ✓ lastdrop)', line: { color: colors.orange, width: 2.5 }, mode: 'lines' },
+  { x: dateLabels, y: jetRunway, name: 'Jet Fuel (starts 27.5d ✓ lastdrop)', line: { color: colors.red, width: 2.5 }, mode: 'lines' },
+  {
+    x: dateLabels, y: Array(90).fill(14),
+    name: 'Emergency Threshold (14 days)',
+    line: { color: colors.red, width: 1, dash: 'dash' }, mode: 'lines',
+  }
+], {
+  ...layoutBase,
+  title: { text: 'Projected Days of Cover — If Hormuz Stays Closed (starting reserves ✓; trajectory ~ estimated)', font: { size: 13, color: colors.text } },
+  yaxis: { ...layoutBase.yaxis, title: 'Days of fuel cover', range: [0, 42] },
+  legend: { orientation: 'h', y: -0.2, x: 0.5, xanchor: 'center' },
+  shapes: [{
+    type: 'rect', xref: 'paper', yref: 'y',
+    x0: 0, x1: 1, y0: 0, y1: 14,
+    fillcolor: 'rgba(248, 113, 113, 0.08)', line: { width: 0 },
+  }],
+  annotations: [{
+    x: dateLabels[55], y: 12,
+    text: '⚠ EMERGENCY ZONE',
+    showarrow: false, font: { size: 12, color: colors.red },
+  }],
+}, { responsive: true });
+</script>
+
+</body>
+</html>
